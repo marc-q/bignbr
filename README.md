@@ -6,3 +6,25 @@ GiantNbr use integer arrays (multiple digits) for storing the numbers, thats why
 
 ### How it started
 To be onest i tried to figure out how division can be implemented in GiantNbr, but it was to complicated. I started developing BigNbr to figure out a simple algorithm for doing division and thought this could be worth sharing with others.
+
+### Example
+
+```C
+int main (int argc, char *argv)
+{
+  bignbr a, b;
+  
+  bignbr_init (&a, 10, "+99");
+  bignbr_init (&b, 10, "+1");
+  
+  bignbr_add (&a, &b);
+  bignbr_print (&a);
+  
+  bignbr_free (&a);
+  bignbr_free (&b);
+  
+  return 0;
+}
+```
+> $ ./test
+> $ +100
