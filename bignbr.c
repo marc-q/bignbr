@@ -111,15 +111,13 @@ bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 	
 	for (i = 1; ; i++)
 	{
-		/* Sign before digits! */
 		j = strlen (v)-i;
 		
 		if (a->data[i] == BIGNBR_EON || j < 1)
 		{
 			break;
 		}
-		
-		if (a->data[i]+'0' != v[j])
+		else if (a->data[i] + '0' != v[j])
 		{
 			return false;
 		}
@@ -134,7 +132,7 @@ bool bignbr_is_null (bignbr *a)
 	  
 	for (i = 1; i < a->len; i++)
 	{
-		if (a->data[i] != 0 && a->data[i] != BIGNBR_EON)
+		if (BIGNBR_GETNBR(a->data[i]) != 0)
 		{
 			return false;
 		}
@@ -149,13 +147,8 @@ void bignbr_set_negative (bignbr *a, bool v)
 }
 
 bool bignbr_is_negative (bignbr *a)
-{
-	if (a->data[BIGNBR_SIGN] == '-')
-	{
-		return true;
-	}
-	
-	return false;
+{	
+	return a->data[BIGNBR_SIGN] == '-';
 }
 
 bool bignbr_is_greater (bignbr *a, bignbr *b)
@@ -173,15 +166,10 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 	state_a = bignbr_is_negative (a);
 	state_b = bignbr_is_negative (b);
 	
-	if (state_a &&
-	   !state_b)
+	/* Unequal signs only need this! */
+	if (state_a ^ state_b)
 	{
-		return false;
-	}
-	else if (!state_a &&
-		  state_b)
-	{
-		return true;
+		return !state_a && state_b;
 	}
 	
 	/* If A and B are from unequal length, this gives the answer. */
@@ -244,6 +232,7 @@ void bignbr_add (bignbr *a, bignbr *b)
 			vb = 0;
 		}
 		
+		/* Nothing left to add! */
 		if (carry == 0 && end_a && end_b)
 		{
 			a->data[i] = BIGNBR_EON;
@@ -254,7 +243,7 @@ void bignbr_add (bignbr *a, bignbr *b)
 		
 		if (t < 0)
 		{
-			a->data[i] = (unsigned char) (10 + t);
+			a->data[i] = (unsigned char) (t + 10);
 			carry = -1;
 		}
 		else if (t >= 10)
