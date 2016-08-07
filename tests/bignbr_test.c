@@ -96,7 +96,7 @@ static short bignbr_test_core_cpy (void)
 	
 	/* Copy a positive to a positive. */
 	bignbr_init (&a, 10, "+1005");
-	bignbr_init (&b, 10, "+2005");
+	bignbr_init (&b, 4, "+2005");
 	
 	bignbr_cpy (&a, &b);
 	
@@ -179,7 +179,7 @@ static short bignbr_test_core_fill (void)
 	bignbr a;
 	
 	/* Fill a positive. */
-	bignbr_init (&a, 20, "+0");
+	bignbr_init (&a, 11, "+0");
 	
 	bignbr_fill (&a, "+01234567890");
 	
@@ -223,7 +223,7 @@ static short bignbr_test_core_geteonpos (void)
 	bignbr a;
 	
 	/* Get the EON from an positive 1 digit number. */
-	bignbr_init (&a, 20, "+0");
+	bignbr_init (&a, 10, "+0");
 	
 	pos = bignbr_get_eon_pos (&a);
 	
@@ -272,7 +272,7 @@ static short bignbr_test_check_cmp_str (void)
 	bignbr a;
 	
 	/* Compare a positive with a negative number. */
-	bignbr_init (&a, 20, "+01234567890");
+	bignbr_init (&a, 11, "+01234567890");
 	
 	if (!bignbr_cmp_str (&a, "-01234567890") &&
 	     bignbr_cmp_str (&a, "+01234567890") &&
@@ -323,7 +323,7 @@ static short bignbr_test_check_is_null (void)
 	bignbr a;
 	
 	/* Positive null. */
-	bignbr_init (&a, 20, "+0");
+	bignbr_init (&a, 11, "+0");
 	
 	if (bignbr_is_null (&a))
 	{
@@ -390,7 +390,7 @@ static short bignbr_test_check_negative (void)
 	bignbr a;
 	
 	/* Positive null. */
-	bignbr_init (&a, 20, "+0");
+	bignbr_init (&a, 11, "+0");
 	
 	if (!bignbr_is_negative (&a))
 	{
@@ -457,8 +457,8 @@ static short bignbr_test_check_is_greater (void)
 	bignbr a, b;
 	
 	/* Check two positive nulls. */
-	bignbr_init (&a, 20, "+0");
-	bignbr_init (&b, 20, "+0");
+	bignbr_init (&a, 3, "+0");
+	bignbr_init (&b, 10, "+0");
 	
 	if (!bignbr_is_greater (&a, &b))
 	{
@@ -734,7 +734,7 @@ static short bignbr_test_int_add (void)
 	
 	/* Add positive to positive. */
 	bignbr_init (&a, 100, "+204242999999999999999999");
-	bignbr_init (&b, 100, "+1");
+	bignbr_init (&b, 1, "+1");
 	
 	bignbr_add (&a, &b);
 	
@@ -814,7 +814,7 @@ static short bignbr_test_int_sub (void)
 	
 	/* Subtract positive from positive. */
 	bignbr_init (&a, 100, "+204242999999999999999999");
-	bignbr_init (&b, 100, "+1");
+	bignbr_init (&b, 1, "+1");
 	
 	bignbr_sub (&a, &b);
 	
@@ -894,7 +894,7 @@ static short bignbr_test_int_mpl (void)
 	
 	/* Multiply positive with positive. */
 	bignbr_init (&a, 100, "+200050008");
-	bignbr_init (&b, 100, "+3");
+	bignbr_init (&b, 1, "+3");
 	
 	bignbr_mpl (&a, &b);
 	

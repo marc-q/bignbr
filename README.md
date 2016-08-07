@@ -14,8 +14,8 @@ int main (int argc, char *argv)
 {
   bignbr a, b;
   
-  bignbr_init (&a, 10, "+99");
-  bignbr_init (&b, 10, "+1");
+  bignbr_init (&a, 3, "+99");
+  bignbr_init (&b, 1, "+1");
   
   bignbr_add (&a, &b);
   bignbr_print (&a);
