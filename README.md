@@ -10,20 +10,24 @@ To be onest i tried to figure out how division can be implemented in GiantNbr, b
 ### Example
 
 ```C
+#include <stdio.h>
+#include <stdbool.h>
+#include "bignbr.h"
+
 int main (int argc, char *argv)
 {
-  bignbr a, b;
-  
-  bignbr_init (&a, 3, "+99");
-  bignbr_init (&b, 1, "+1");
-  
-  bignbr_add (&a, &b);
-  bignbr_print (&a);
-  
-  bignbr_free (&a);
-  bignbr_free (&b);
-  
-  return 0;
+	bignbr a, b;
+
+	bignbr_init (&a, 3, "+99");
+	bignbr_init (&b, 1, "+1");
+
+	bignbr_add (&a, &b);
+	bignbr_print (&a);
+
+	bignbr_free (&a);
+	bignbr_free (&b);
+
+	return 0;
 }
 ```
 > $ ./test
