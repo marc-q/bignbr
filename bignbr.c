@@ -12,10 +12,11 @@
 
 void bignbr_init (bignbr *a, unsigned int len, unsigned char *v)
 {
- 	a->len = len;
+	/* Amount of digits + 2 bytes: 1 for the sign + 1 for the eon. */
+ 	a->len = len + 2;
   	
-  	/* Length + 1 Bytes : 1 byte for the binary null. */
-  	a->data = (unsigned char*) malloc (sizeof (unsigned char) * (a->len+1));
+  	/* Length + 1 byte : 1 byte for the binary null. */
+  	a->data = (unsigned char*) malloc (sizeof (unsigned char) * (a->len + 1));
   
 	bignbr_fill (a, v);
 }
@@ -28,37 +29,37 @@ void bignbr_free (bignbr *a)
 void bignbr_cpy (bignbr *a, bignbr *b)
 {
 	unsigned int i;
-
-	a->len = b->len;
+	unsigned char vb;
+	bool end_b;
+	
+	end_b = false; 
 	
 	for (i = 0; i < a->len; i++)
 	{
-		a->data[i] = b->data[i];
+		vb = (end_b ? 0 : b->data[i]);
+		
+		if (vb == BIGNBR_EON)
+		{
+			end_b = true;
+		}
+		
+		a->data[i] = vb;
 	}
 }
 
 void bignbr_fill (bignbr *a, unsigned char *v)
 {
-	int i, j;
+	unsigned int i;
+	int j;
 	
 	for (i = 1; i < a->len; i++)
 	{
 		j = strlen (v) - i;
 		
-		/* Copy the first value! */
-		if (j > 0)
-		{
-			/* Substract '0' to get an int like value. */
-			a->data[i] = (unsigned char) (v[j] - '0');
-		}
-		else
-		{
-			/* Adding leading zeros. */
-			a->data[i] = 0;
-		}
+		a->data[i] = (j > 0 ? v[j] - '0' : 0);
 	}
 	
-	/* Set the sign. */
+	/* Set the sign, eon and binary null. */
 	a->data[strlen (v)] = BIGNBR_EON;
 	a->data[BIGNBR_SIGN] = v[BIGNBR_SIGN];
 	a->data[a->len] = '\0';
@@ -73,7 +74,7 @@ void bignbr_print (bignbr *a)
 	i = bignbr_get_eon_pos (a);
 	for (i--; i > 0; i--)
 	{	
-		printf ("%c", (char)(a->data[i] + '0'));
+		printf ("%c", a->data[i] + '0');
 	}
 	
 	printf ("\n");
@@ -100,7 +101,8 @@ unsigned int bignbr_get_eon_pos (bignbr *a)
 
 bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 {
-	int i, j;
+	unsigned int i;
+	int j;
 	
 	if (strlen (v) > a->len ||
 	    bignbr_get_eon_pos (a) != strlen (v) ||
@@ -156,9 +158,8 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 	unsigned int i;
 	bool state_a, state_b;
 	
-	if (a->len != b->len ||
-	    (bignbr_is_null (a) &&
-	     bignbr_is_null (b)))
+	if (bignbr_is_null (a) &&
+	     bignbr_is_null (b))
 	{
 		return false;
 	}
@@ -179,8 +180,10 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 		return state_a ^ i > bignbr_get_eon_pos (b);
 	}
 	
+	/* NOTE: i is equal for A and B. */
 	for (i--; i > 0; i--)
 	{
+		/* Both tests needed due to return false on equal numbers! */
 		if ((state_a && BIGNBR_GETNBR (a->data[i]) < BIGNBR_GETNBR (b->data[i])) ||
 		    (!state_a && BIGNBR_GETNBR (a->data[i]) > BIGNBR_GETNBR (b->data[i])))
 		{
@@ -201,12 +204,6 @@ void bignbr_add (bignbr *a, bignbr *b)
 	unsigned int i;
 	char t, carry, vb;
 	bool state_a, state_b, end_a, end_b;
-	
-	if (a->len != b->len)
-	{
-		printf ("Error: A and B must have the same length!\n");
-		return;
-	}
 	
 	carry = 0;
 	
@@ -292,7 +289,7 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	bignbr out, tmp;
 	
 	bignbr_init (&out, a->len, "+0");
-	bignbr_init (&tmp, a->len, "+1");
+	bignbr_init (&tmp, 1, "+1");
 	
 	state_a = bignbr_is_negative (a);
 	state_b = bignbr_is_negative (b);
