@@ -157,15 +157,16 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 {
 	unsigned int i;
 	bool state_a, state_b;
-	
-	if (bignbr_is_null (a) &&
-	     bignbr_is_null (b))
-	{
-		return false;
-	}
 
 	state_a = bignbr_is_negative (a);
 	state_b = bignbr_is_negative (b);
+	
+	/* If one of the numbers (or both) equals null, this gives the answer! */
+	if (bignbr_is_null (a) ||
+	    bignbr_is_null (b))
+	{
+		return (!bignbr_is_null (a) && !state_a) ^ (!bignbr_is_null (b) && state_b);
+	}
 	
 	/* Unequal signs only need this! */
 	if (state_a ^ state_b)
