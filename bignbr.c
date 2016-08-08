@@ -199,7 +199,6 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
    |		    Arithmetic			|
    |--------------------------------------------| */
 
-
 void bignbr_add (bignbr *a, bignbr *b)
 {
 	unsigned int i;
