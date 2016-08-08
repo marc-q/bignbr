@@ -734,7 +734,7 @@ static short bignbr_test_int_add (void)
 	
 	/* Add positive to positive. */
 	bignbr_init (&a, 100, "+204242999999999999999999");
-	bignbr_init (&b, 1, "+1");
+	bignbr_init (&b, 10, "+1");
 	
 	bignbr_add (&a, &b);
 	
@@ -787,6 +787,70 @@ static short bignbr_test_int_add (void)
 	
 	if (passed == TESTS_PASS &&
 	    bignbr_cmp_str (&a, "-204243000000000000000000"))
+	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	/* Add negative greater to positive. */
+	bignbr_fill (&a, "+150");
+	bignbr_fill (&b, "-200");
+	
+	bignbr_add (&a, &b);
+	
+	if (passed == TESTS_PASS &&
+	    bignbr_cmp_str (&a, "-50"))
+	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	/* Add negative greater to positive. */
+	bignbr_fill (&a, "+15");
+	bignbr_fill (&b, "-200");
+	
+	bignbr_add (&a, &b);
+	
+	if (passed == TESTS_PASS &&
+	    bignbr_cmp_str (&a, "-185"))
+	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	/* Add positive greater to negative. */
+	bignbr_fill (&a, "-150");
+	bignbr_fill (&b, "+200");
+	
+	bignbr_add (&a, &b);
+	
+	if (passed == TESTS_PASS &&
+	    bignbr_cmp_str (&a, "+50"))
+	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	/* Add positive greater to negative. */
+	bignbr_fill (&a, "-15");
+	bignbr_fill (&b, "+200");
+	
+	bignbr_add (&a, &b);
+	
+	if (passed == TESTS_PASS &&
+	    bignbr_cmp_str (&a, "+185"))
 	{
 		tst_print_success ("INT_Addition");
 		passed = TESTS_PASS;
