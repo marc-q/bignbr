@@ -52,10 +52,10 @@ void bignbr_fill (bignbr *a, unsigned char *v)
 	unsigned int i;
 	int j;
 	
-	for (i = 1; i < a->len; i++)
-	{
-		j = strlen (v) - i;
+	j = strlen (v) - 1;
 		
+	for (i = 1; i < a->len; i++, j--)
+	{	
 		a->data[i] = (j > 0 ? v[j] - '0' : 0);
 	}
 	
@@ -110,11 +110,11 @@ bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 	{
 		return false;
 	}
-	
-	for (i = 1; ; i++)
-	{
-		j = strlen (v)-i;
 		
+	j = strlen (v) - 1;
+	
+	for (i = 1; ; i++, j--)
+	{
 		if (a->data[i] == BIGNBR_EON || j < 1)
 		{
 			break;
@@ -287,10 +287,14 @@ void bignbr_sub (bignbr *a, bignbr *b)
 void bignbr_mpl (bignbr *a, bignbr *b)
 {
 	bool state_a, state_b;
-	bignbr out, tmp;
+	bignbr out, tmp, cb;
 	
 	bignbr_init (&out, a->len, "+0");
 	bignbr_init (&tmp, 1, "+1");
+	
+	/* Make a copy of B since it doesn't change. */
+	bignbr_init (&cb, b->len, "+0");
+	bignbr_cpy (&cb, b);
 	
 	state_a = bignbr_is_negative (a);
 	state_b = bignbr_is_negative (b);
@@ -298,10 +302,10 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	bignbr_set_negative (&tmp, state_b);
 	bignbr_set_negative (&out, state_a);
 	
-	while (!bignbr_is_null (b))
+	while (!bignbr_is_null (&cb))
 	{
 		bignbr_add (&out, a);
-		bignbr_sub (b, &tmp);
+		bignbr_sub (&cb, &tmp);
 	}
 	
 	bignbr_set_negative (&out, state_a ^ state_b);
@@ -309,4 +313,5 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	
 	bignbr_free (&out);
 	bignbr_free (&tmp);
+	bignbr_free (&cb);
 }
