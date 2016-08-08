@@ -203,8 +203,8 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 void bignbr_add (bignbr *a, bignbr *b)
 {
 	unsigned int i;
-	char t, carry, vb;
-	bool state_a, state_b, end_a, end_b;
+	char t, carry, va, vb;
+	bool state_a, state_b, end_a, end_b, sw;
 	
 	carry = 0;
 	
@@ -213,15 +213,23 @@ void bignbr_add (bignbr *a, bignbr *b)
 	end_a = false;
 	end_b = false;
 	
+	/* Use for the case of B being negative and greater than A! */
+	bignbr_set_negative (a, false);
+	bignbr_set_negative (b, false);
+	sw = bignbr_is_greater (b, a) && (state_b ^ state_a);
+	bignbr_set_negative (a, state_a);
+	bignbr_set_negative (b, state_b);
+	
 	for (i = 1; i < a->len; i++)
 	{
+		va = (end_a ? 0 : a->data[i]);
 		/* B doesn't change so we need this. */
 		vb = (end_b ? 0 : b->data[i]);
 		
-		if (a->data[i] == BIGNBR_EON)
+		if (va == BIGNBR_EON)
 		{
 			end_a = true;
-			a->data[i] = 0;
+			va = 0;
 		}
 		
 		if (vb == BIGNBR_EON)
@@ -230,14 +238,14 @@ void bignbr_add (bignbr *a, bignbr *b)
 			vb = 0;
 		}
 		
-		/* Nothing left to add! */
-		if (carry == 0 && end_a && end_b)
+		if (sw)
 		{
-			a->data[i] = BIGNBR_EON;
-			break;
+			t = va;
+			va = vb;
+			vb = t;
 		}
 		
-		t = a->data[i] + (state_a ^ state_b ? (-vb) : vb) + carry;
+		t = va + (state_a ^ state_b ? (-vb) : vb) + carry;
 		
 		if (t < 0)
 		{
@@ -254,6 +262,21 @@ void bignbr_add (bignbr *a, bignbr *b)
 			a->data[i] = (unsigned char) (t);
 			carry = 0;
 		}
+	}
+	
+	/* Sets the EON after the last digit. */
+	for (i = a->len; i > 0; i--)
+	{
+		if (a->data[i] != 0)
+		{
+			a->data[i+1] = BIGNBR_EON;
+			break;
+		}
+	}
+	
+	if (sw)
+	{
+		bignbr_set_negative (a, state_b);
 	}
 }
 
