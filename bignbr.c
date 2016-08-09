@@ -220,7 +220,7 @@ void bignbr_add (bignbr *a, bignbr *b)
 	/* Use for the case of B being negative and greater than A! */
 	bignbr_set_negative (a, false);
 	bignbr_set_negative (b, false);
-	sw = bignbr_is_greater (b, a) && (state_b ^ state_a);
+	sw = bignbr_is_greater (b, a) && (state_a ^ state_b);
 	bignbr_set_negative (a, state_a);
 	bignbr_set_negative (b, state_b);
 	
