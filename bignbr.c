@@ -101,8 +101,7 @@ bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 	unsigned int i;
 	int j;
 	
-	if (strlen (v) > a->len ||
-	    bignbr_get_eon_pos (a) != strlen (v) ||
+	if (bignbr_get_eon_pos (a) != strlen (v) ||
 	    a->data[BIGNBR_SIGN] != v[BIGNBR_SIGN])
 	{
 		return false;
