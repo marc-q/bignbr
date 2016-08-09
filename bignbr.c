@@ -98,24 +98,20 @@ unsigned int bignbr_get_eon_pos (bignbr *a)
 
 bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 {
-	unsigned int i;
-	int j;
+	unsigned int i, j;
 	
-	if (bignbr_get_eon_pos (a) != strlen (v) ||
+	i = bignbr_get_eon_pos (a);
+	j = strlen (v);
+	
+	if (i != j ||
 	    a->data[BIGNBR_SIGN] != v[BIGNBR_SIGN])
 	{
 		return false;
 	}
-		
-	j = strlen (v) - 1;
 	
-	for (i = 1; ; i++, j--)
+	for (i--; i > 0; i--)
 	{
-		if (a->data[i] == BIGNBR_EON || j < 1)
-		{
-			break;
-		}
-		else if (a->data[i] + '0' != v[j])
+		if (a->data[i] + '0' != v[j - i])
 		{
 			return false;
 		}
