@@ -122,22 +122,8 @@ bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 
 bool bignbr_is_null (bignbr *a)
 {
-	unsigned int i;
-	 
-	for (i = 1; i < a->len; i++)
-	{
-		/* Stop at the end of the number! */
-		if (a->data[i] == BIGNBR_EON)
-		{
-			break;
-		}
-		else if (a->data[i] != 0)
-		{
-			return false;
-		}
-	}
-	
-	return true;
+	/* Zeros are always saved in this format! */
+	return a->data[1] == 0 && a->data[2] == BIGNBR_EON;
 }
 
 void bignbr_set_negative (bignbr *a, bool v)
