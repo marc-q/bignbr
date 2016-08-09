@@ -138,7 +138,7 @@ bool bignbr_is_negative (bignbr *a)
 
 bool bignbr_is_greater (bignbr *a, bignbr *b)
 {
-	unsigned int i;
+	unsigned int i, j;
 	bool state_a, state_b;
 
 	state_a = bignbr_is_negative (a);
@@ -159,9 +159,10 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 	
 	/* If A and B are from unequal length, this gives the answer. */
 	i = bignbr_get_eon_pos (a);
-	if (i != bignbr_get_eon_pos (b))
+	j = bignbr_get_eon_pos (b);
+	if (i != j)
 	{
-		return state_a ^ i > bignbr_get_eon_pos (b);
+		return state_a ^ i > j;
 	}
 	
 	/* NOTE: i is equal for A and B. */
