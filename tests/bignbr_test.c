@@ -852,6 +852,38 @@ static short bignbr_test_int_add (void)
 	if (passed == TESTS_PASS &&
 	    bignbr_cmp_str (&a, "+185"))
 	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	/* Add positive equal to negative. */
+	bignbr_fill (&a, "-15");
+	bignbr_fill (&b, "+15");
+	
+	bignbr_add (&a, &b);
+	
+	if (passed == TESTS_PASS &&
+	    bignbr_cmp_str (&a, "+0"))
+	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	/* Add negative equal to postive. */
+	bignbr_fill (&a, "+15");
+	bignbr_fill (&b, "-15");
+	
+	bignbr_add (&a, &b);
+	
+	if (passed == TESTS_PASS &&
+	    bignbr_cmp_str (&a, "+0"))
+	{
 		tst_print_success ("INT_Addition");
 		passed = TESTS_PASS;
 	}

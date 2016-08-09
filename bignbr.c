@@ -268,6 +268,13 @@ void bignbr_add (bignbr *a, bignbr *b)
 			a->data[i+1] = BIGNBR_EON;
 			break;
 		}
+		else if (i == 1)
+		{
+			/* If the number equals zero, make it positive! */
+			a->data[i+1] = BIGNBR_EON;
+			bignbr_set_negative (a, false);
+			break;
+		}
 	}
 	
 	if (sw)
