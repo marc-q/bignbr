@@ -33,6 +33,7 @@ void bignbr_cpy (bignbr *a, bignbr *b)
 	
 	end_b = false; 
 	
+	/* Start at zero to include the sign. */
 	for (i = 0; i < a->len; i++)
 	{
 		a->data[i] = (end_b ? 0 : b->data[i]);
@@ -248,7 +249,7 @@ void bignbr_add (bignbr *a, bignbr *b)
 	}
 	
 	/* Sets the EON after the last digit. */
-	for (i = a->len; i > 0; i--)
+	for (i = a->len-1; i > 0; i--)
 	{
 		if (a->data[i] != 0)
 		{
