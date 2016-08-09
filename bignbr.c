@@ -13,11 +13,11 @@
 void bignbr_init (bignbr *a, unsigned int len, unsigned char *v)
 {
 	/* Amount of digits + 2 bytes: 1 for the sign + 1 for the eon. */
- 	a->len = len + 2;
-  	
+	a->len = len + 2;
+	
   	/* Length + 1 byte : 1 byte for the binary null. */
-  	a->data = (unsigned char*) malloc (sizeof (unsigned char) * (a->len + 1));
-  
+	a->data = (unsigned char*) malloc (sizeof (unsigned char) * (a->len + 1));
+	
 	bignbr_fill (a, v);
 }
 
@@ -131,10 +131,15 @@ bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 bool bignbr_is_null (bignbr *a)
 {
 	unsigned int i;
-	  
+	 
 	for (i = 1; i < a->len; i++)
 	{
-		if (BIGNBR_GETNBR(a->data[i]) != 0)
+		/* Stop at the end of the number! */
+		if (a->data[i] == BIGNBR_EON)
+		{
+			break;
+		}
+		else if (a->data[i] != 0)
 		{
 			return false;
 		}
