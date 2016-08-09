@@ -29,21 +29,18 @@ void bignbr_free (bignbr *a)
 void bignbr_cpy (bignbr *a, bignbr *b)
 {
 	unsigned int i;
-	unsigned char vb;
 	bool end_b;
 	
 	end_b = false; 
 	
 	for (i = 0; i < a->len; i++)
 	{
-		vb = (end_b ? 0 : b->data[i]);
+		a->data[i] = (end_b ? 0 : b->data[i]);
 		
-		if (vb == BIGNBR_EON)
+		if (a->data[i] == BIGNBR_EON)
 		{
 			end_b = true;
 		}
-		
-		a->data[i] = vb;
 	}
 }
 
