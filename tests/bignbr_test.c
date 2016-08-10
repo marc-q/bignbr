@@ -91,76 +91,58 @@ static void tst_print_summary (int points)
 */
 static short bignbr_test_core_cpy (void)
 {
-	short passed;
+	short passed, i;
+	char data[12][10];
 	bignbr a, b;
 	
-	/* Copy a positive to a positive. */
-	bignbr_init (&a, 10, "+1005");
-	bignbr_init (&b, 4, "+2005");
+	/* Testdata */
+	/* Copy positive to positive. */
+	strcpy (data[0], "+1005");
+	strcpy (data[1], "+2005");
+	strcpy (data[2], "+2005");
 	
-	bignbr_cpy (&a, &b);
+	/* Copy positive to negative. */
+	strcpy (data[3], "-1005");
+	strcpy (data[4], "+2005");
+	strcpy (data[5], "+2005");
 	
-	if (bignbr_cmp_str (&a, "+2005") &&
-	    bignbr_cmp_str (&b, "+2005"))
+	/* Copy negative to positive. */
+	strcpy (data[6], "+1005");
+	strcpy (data[7], "-2005");
+	strcpy (data[8], "-2005");
+	
+	/* Copy negative to negative. */
+	strcpy (data[9], "-1005");
+	strcpy (data[10], "-2005");
+	strcpy (data[11], "-2005");
+	
+	bignbr_init (&a, 10, "+0");
+	bignbr_init (&b, 4, "+0");
+	
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 12; i++)
 	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
-	
-	/* Copy a positive to a negative. */
-	bignbr_fill (&a, "-1005");
-	bignbr_fill (&b, "+2005");
-	
-	bignbr_cpy (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+2005") &&
-	    bignbr_cmp_str (&b, "+2005"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
-	
-	/* Copy a negative to a positive. */
-	bignbr_fill (&a, "+1005");
-	bignbr_fill (&b, "-2005");
-	
-	bignbr_cpy (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-2005") &&
-	    bignbr_cmp_str (&b, "-2005"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
+		bignbr_fill (&a, data[i++]);
+		bignbr_fill (&b, data[i++]);
+		
+		bignbr_cpy (&a, &b);
+		
+		if (!bignbr_cmp_str (&a, data[i]) &&
+		    !bignbr_cmp_str (&b, data[i]))
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
 	}
 	
-	/* Copy a negative to a negative. */
-	bignbr_fill (&a, "-1005");
-	bignbr_fill (&b, "-2005");
-	
-	bignbr_cpy (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-2005") &&
-	    bignbr_cmp_str (&b, "-2005"))
+	if (passed == TESTS_PASS)
 	{
 		tst_print_success ("CORE_Copy");
-		passed = TESTS_PASS;
 	}
 	else
 	{
 		tst_print_fail ("CORE_Copy");
-		passed = TESTS_FAIL;
 	}
 	
 	bignbr_free (&a);
@@ -175,36 +157,42 @@ static short bignbr_test_core_cpy (void)
 */
 static short bignbr_test_core_fill (void)
 {
-	short passed;
+	short passed, i;
+	unsigned char data[4][20];
 	bignbr a;
 	
+	/* Testdata */
 	/* Fill a positive. */
-	bignbr_init (&a, 11, "+0");
-	
-	bignbr_fill (&a, "+01234567890");
-	
-	if (bignbr_cmp_str (&a, "+01234567890"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[0], "+01234567890");
+	memcpy (data[1], "+\x0\x9\x8\x7\x6\x5\x4\x3\x2\x1\x0\x69", 13);
 	
 	/* Fill a negative. */
-	bignbr_fill (&a, "-09876543210");
+	strcpy (data[2], "-09876543210");
+	memcpy (data[3], "-\x0\x1\x2\x3\x4\x5\x6\x7\x8\x9\x0\x69", 13);
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-09876543210"))
+	bignbr_init (&a, 11, "+0");
+	
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 4; i += 2)
+	{
+		bignbr_fill (&a, data[i]);
+		
+		if (!bignbr_cmp_str (&a, data[i]) &&
+		    memcmp (a.data, data[i+1], strlen (data[i])) != 0)
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
+	}
+	
+	if (passed == TESTS_PASS)
 	{
 		tst_print_success ("CORE_Fill");
-		passed = TESTS_PASS;
 	}
 	else
 	{
 		tst_print_fail ("CORE_Fill");
-		passed = TESTS_FAIL;
 	}
 	
 	bignbr_free (&a);
@@ -729,168 +717,87 @@ static short bignbr_test_check_is_greater (void)
 */
 static short bignbr_test_int_add (void)
 {
-	short passed;
+	short passed, i;
+	char data[30][30];
 	bignbr a, b;
 	
+	/* Testdata */
 	/* Add positive to positive. */
-	bignbr_init (&a, 100, "+204242999999999999999999");
-	bignbr_init (&b, 10, "+1");
-	
-	bignbr_add (&a, &b);
-	
-	if (bignbr_cmp_str (&a, "+204243000000000000000000"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[0], "+204242999999999999999999");
+	strcpy (data[1], "+1");
+	strcpy (data[2], "+204243000000000000000000");
 	
 	/* Add positive to negative. */
-	bignbr_fill (&a, "-204242999999999999999999");
-	bignbr_fill (&b, "+1");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-204242999999999999999998"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[3], "-204242999999999999999999");
+	strcpy (data[4], "+1");
+	strcpy (data[5], "-204242999999999999999998");
 	
 	/* Add negative to positive. */
-	bignbr_fill (&a, "+204242999999999999999999");
-	bignbr_fill (&b, "-1");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+204242999999999999999998"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[6], "+204242999999999999999999");
+	strcpy (data[7], "-1");
+	strcpy (data[8], "+204242999999999999999998");
 	
 	/* Add negative to negative. */
-	bignbr_fill (&a, "-204242999999999999999999");
-	bignbr_fill (&b, "-1");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-204243000000000000000000"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[9], "-204242999999999999999999");
+	strcpy (data[10], "-1");
+	strcpy (data[11], "-204243000000000000000000");
 	
 	/* Add negative greater to positive. */
-	bignbr_fill (&a, "+150");
-	bignbr_fill (&b, "-200");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-50"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[12], "+150");
+	strcpy (data[13], "-200");
+	strcpy (data[14], "-50");
 	
 	/* Add negative greater to positive. */
-	bignbr_fill (&a, "+15");
-	bignbr_fill (&b, "-200");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-185"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[15], "+15");
+	strcpy (data[16], "-200");
+	strcpy (data[17], "-185");
 	
 	/* Add positive greater to negative. */
-	bignbr_fill (&a, "-150");
-	bignbr_fill (&b, "+200");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+50"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[18], "-150");
+	strcpy (data[19], "+200");
+	strcpy (data[20], "+50");
 	
 	/* Add positive greater to negative. */
-	bignbr_fill (&a, "-15");
-	bignbr_fill (&b, "+200");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+185"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[21], "-15");
+	strcpy (data[22], "+200");
+	strcpy (data[23], "+185");
 	
 	/* Add positive equal to negative. */
-	bignbr_fill (&a, "-15");
-	bignbr_fill (&b, "+15");
-	
-	bignbr_add (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+0"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[24], "-15");
+	strcpy (data[25], "+15");
+	strcpy (data[26], "+0");
 	
 	/* Add negative equal to postive. */
-	bignbr_fill (&a, "+15");
-	bignbr_fill (&b, "-15");
+	strcpy (data[27], "+15");
+	strcpy (data[28], "-15");
+	strcpy (data[29], "+0");
 	
-	bignbr_add (&a, &b);
+	bignbr_init (&a, 30, "+0");
+	bignbr_init (&b, 10, "+0");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+0"))
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 30; i++)
+	{
+		bignbr_fill (&a, data[i++]);
+		bignbr_fill (&b, data[i++]);
+		
+		bignbr_add (&a, &b);
+		
+		if (!bignbr_cmp_str (&a, data[i]))
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
+	}
+	
+	if (passed == TESTS_PASS)
 	{
 		tst_print_success ("INT_Addition");
-		passed = TESTS_PASS;
 	}
 	else
 	{
 		tst_print_fail ("INT_Addition");
-		passed = TESTS_FAIL;
 	}
 	
 	bignbr_free (&a);
@@ -905,72 +812,57 @@ static short bignbr_test_int_add (void)
 */
 static short bignbr_test_int_sub (void)
 {
-	short passed;
+	short passed, i;
+	char data[12][30];
 	bignbr a, b;
 	
+	/* Testdata */
 	/* Subtract positive from positive. */
-	bignbr_init (&a, 100, "+204242999999999999999999");
-	bignbr_init (&b, 1, "+1");
-	
-	bignbr_sub (&a, &b);
-	
-	if (bignbr_cmp_str (&a, "+204242999999999999999998"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[0], "+204242999999999999999999");
+	strcpy (data[1], "+1");
+	strcpy (data[2], "+204242999999999999999998");
 	
 	/* Subtract positive from negative. */
-	bignbr_fill (&a, "-204242999999999999999999");
-	bignbr_fill (&b, "+1");
-	
-	bignbr_sub (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-204243000000000000000000"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[3], "-204242999999999999999999");
+	strcpy (data[4], "+1");
+	strcpy (data[5], "-204243000000000000000000");
 	
 	/* Subtract negative from positive. */
-	bignbr_fill (&a, "+204242999999999999999999");
-	bignbr_fill (&b, "-1");
-	
-	bignbr_sub (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+204243000000000000000000"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[6], "+204242999999999999999999");
+	strcpy (data[7], "-1");
+	strcpy (data[8], "+204243000000000000000000");
 	
 	/* Subtract negative from negative. */
-	bignbr_fill (&a, "-204242999999999999999999");
-	bignbr_fill (&b, "-1");
+	strcpy (data[9], "-204242999999999999999999");
+	strcpy (data[10], "-1");
+	strcpy (data[11], "-204242999999999999999998");
 	
-	bignbr_sub (&a, &b);
+	bignbr_init (&a, 30, "+0");
+	bignbr_init (&b, 1, "+0");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-204242999999999999999998"))
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 12; i++)
+	{
+		bignbr_fill (&a, data[i++]);
+		bignbr_fill (&b, data[i++]);
+		
+		bignbr_sub (&a, &b);
+		
+		if (!bignbr_cmp_str (&a, data[i]))
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
+	}
+	
+	if (passed == TESTS_PASS)
 	{
 		tst_print_success ("INT_Subtraction");
-		passed = TESTS_PASS;
 	}
 	else
 	{
 		tst_print_fail ("INT_Subtraction");
-		passed = TESTS_FAIL;
 	}
 	
 	bignbr_free (&a);
@@ -985,72 +877,57 @@ static short bignbr_test_int_sub (void)
 */
 static short bignbr_test_int_mpl (void)
 {
-	short passed;
+	short passed, i;
+	char data[12][20];
 	bignbr a, b;
 	
+	/* Testdata */
 	/* Multiply positive with positive. */
-	bignbr_init (&a, 100, "+200050008");
-	bignbr_init (&b, 1, "+3");
-	
-	bignbr_mpl (&a, &b);
-	
-	if (bignbr_cmp_str (&a, "+600150024"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[0], "+200050008");
+	strcpy (data[1], "+3");
+	strcpy (data[2], "+600150024");
 	
 	/* Multiply positive with negative. */
-	bignbr_fill (&a, "-200050008");
-	bignbr_fill (&b, "+3");
-	
-	bignbr_mpl (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-600150024"))
-	{
-		passed = TESTS_PASS;
-	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
+	strcpy (data[3], "-200050008");
+	strcpy (data[4], "+3");
+	strcpy (data[5], "-600150024");
 	
 	/* Multiply negative with positive. */
-	bignbr_fill (&a, "+200050008");
-	bignbr_fill (&b, "-3");
+	strcpy (data[6], "+200050008");
+	strcpy (data[7], "-3");
+	strcpy (data[8], "-600150024");
 	
-	bignbr_mpl (&a, &b);
+	/* Multiply negative with negative. */
+	strcpy (data[9], "-200050008");
+	strcpy (data[10], "-3");
+	strcpy (data[11], "+600150024");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "-600150024"))
+	bignbr_init (&a, 20, "+0");
+	bignbr_init (&b, 1, "+0");
+	
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 12; i++)
 	{
-		passed = TESTS_PASS;
+		bignbr_fill (&a, data[i++]);
+		bignbr_fill (&b, data[i++]);
+		
+		bignbr_mpl (&a, &b);
+		
+		if (!bignbr_cmp_str (&a, data[i]))
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
 	}
-	else
-	{
-		passed = TESTS_FAIL;
-	}
 	
-	/* Multiply negative to negative. */
-	bignbr_fill (&a, "-200050008");
-	bignbr_fill (&b, "-3");
-	
-	bignbr_mpl (&a, &b);
-	
-	if (passed == TESTS_PASS &&
-	    bignbr_cmp_str (&a, "+600150024"))
+	if (passed == TESTS_PASS)
 	{
 		tst_print_success ("INT_Multiplication");
-		passed = TESTS_PASS;
 	}
 	else
 	{
 		tst_print_fail ("INT_Multiplication");
-		passed = TESTS_FAIL;
 	}
 	
 	bignbr_free (&a);
