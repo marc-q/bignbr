@@ -128,7 +128,7 @@ static short bignbr_test_core_cpy (void)
 		
 		bignbr_cpy (&a, &b);
 		
-		if (!bignbr_cmp_str (&a, data[i]) &&
+		if (!bignbr_cmp_str (&a, data[i]) ||
 		    !bignbr_cmp_str (&b, data[i]))
 		{
 			passed = TESTS_FAIL;
@@ -164,11 +164,11 @@ static short bignbr_test_core_fill (void)
 	/* Testdata */
 	/* Fill a positive. */
 	strcpy (data[0], "+01234567890");
-	memcpy (data[1], "+\x0\x9\x8\x7\x6\x5\x4\x3\x2\x1\x0\x69", 13);
+	memcpy (data[1], "+\x00\x09\x08\x07\x06\x05\x04\x03\x02\x01\x00\x45", 13);
 	
 	/* Fill a negative. */
 	strcpy (data[2], "-09876543210");
-	memcpy (data[3], "-\x0\x1\x2\x3\x4\x5\x6\x7\x8\x9\x0\x69", 13);
+	memcpy (data[3], "-\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x00\x45", 13);
 	
 	bignbr_init (&a, 11, "+0");
 	
@@ -178,8 +178,8 @@ static short bignbr_test_core_fill (void)
 	{
 		bignbr_fill (&a, data[i]);
 		
-		if (!bignbr_cmp_str (&a, data[i]) &&
-		    memcmp (a.data, data[i+1], strlen (data[i])) != 0)
+		if (!bignbr_cmp_str (&a, data[i]) ||
+		    memcmp (a.data, data[i+1], strlen (data[i])+1) != 0)
 		{
 			passed = TESTS_FAIL;
 			break;
