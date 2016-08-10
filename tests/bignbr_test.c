@@ -92,7 +92,7 @@ static void tst_print_summary (int points)
 static short bignbr_test_core_cpy (void)
 {
 	short passed, i;
-	char data[12][10];
+	unsigned char data[12][10];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -718,7 +718,7 @@ static short bignbr_test_check_is_greater (void)
 static short bignbr_test_int_add (void)
 {
 	short passed, i;
-	char data[30][30];
+	unsigned char data[30][30];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -813,7 +813,7 @@ static short bignbr_test_int_add (void)
 static short bignbr_test_int_sub (void)
 {
 	short passed, i;
-	char data[12][30];
+	unsigned char data[12][30];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -878,7 +878,7 @@ static short bignbr_test_int_sub (void)
 static short bignbr_test_int_mpl (void)
 {
 	short passed, i;
-	char data[12][20];
+	unsigned char data[12][20];
 	bignbr a, b;
 	
 	/* Testdata */
