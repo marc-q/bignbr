@@ -303,11 +303,12 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	bool state_a, state_b;
 	bignbr out, tmp, cb;
 	
-	bignbr_init (&out, a->len, "+0");
+	/* Since a->len would be len + 2, subtract 2 to get equal length. */
+	bignbr_init (&out, a->len-2, "+0");
 	bignbr_init (&tmp, 1, "+1");
 	
 	/* Make a copy of B since it doesn't change. */
-	bignbr_init (&cb, b->len, "+0");
+	bignbr_init (&cb, b->len-2, "+0");
 	bignbr_cpy (&cb, b);
 	
 	state_a = bignbr_is_negative (a);
