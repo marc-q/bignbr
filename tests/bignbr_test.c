@@ -5,7 +5,7 @@
 #include "../lib/dutils.h"
 #include "../bignbr.h"
 
-#define TESTS_AMOUNT 11
+#define TESTS_AMOUNT 12
 #define TESTS_FAIL 0
 #define TESTS_PASS 1
 
@@ -147,6 +147,60 @@ static short bignbr_test_core_cpy (void)
 	
 	bignbr_free (&a);
 	bignbr_free (&b);
+	return passed;
+}
+
+/*
+	Function: bignbr_test_core_cat_digit (void);
+	Description: Tests the bignbr_cat_digit function from bignbr.c.
+	InitVersion: 0.0.1
+*/
+static short bignbr_test_core_cat_digit (void)
+{
+	short passed, i;
+	unsigned char data[9][10];
+	bignbr a;
+	
+	/* Testdata */
+	strcpy (data[0], "+0");
+	data[1][0] = 1;
+	strcpy (data[2], "+01");
+	
+	strcpy (data[3], "-1");
+	data[4][0] = 0;
+	strcpy (data[5], "-10");
+	
+	strcpy (data[6], "+0");
+	data[7][0] = 0;
+	strcpy (data[8], "+00");
+	
+	bignbr_init (&a, 10, "+0");
+	
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 9; i++)
+	{
+		bignbr_fill (&a, data[i++]);
+		
+		bignbr_cat_digit (&a, data[i++][0]);
+		
+		if (!bignbr_cmp_str (&a, data[i]))
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
+	}
+	
+	if (passed == TESTS_PASS)
+	{
+		tst_print_success ("CORE_Cat_Digit");
+	}
+	else
+	{
+		tst_print_fail ("CORE_Cat_Digit");
+	}
+	
+	bignbr_free (&a);
 	return passed;
 }
 
@@ -1037,6 +1091,7 @@ int main (int argc, char* argv[])
 	printf ("BigNbr v. 0.0.1 A (c) 2016 Marc Volker Dickmann\n\n");
 	
 	points += bignbr_test_core_cpy ();
+	points += bignbr_test_core_cat_digit ();
 	points += bignbr_test_core_fill ();
 	points += bignbr_test_core_geteonpos ();
 	
