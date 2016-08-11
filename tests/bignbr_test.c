@@ -5,7 +5,7 @@
 #include "../lib/dutils.h"
 #include "../bignbr.h"
 
-#define TESTS_AMOUNT 10
+#define TESTS_AMOUNT 11
 #define TESTS_FAIL 0
 #define TESTS_PASS 1
 
@@ -935,6 +935,99 @@ static short bignbr_test_int_mpl (void)
 	return passed;
 }
 
+/*
+	Function: bignbr_test_int_div (void);
+	Description: Tests the bignbr_div function from bignbr.c.
+	InitVersion: 0.0.1
+*/
+static short bignbr_test_int_div (void)
+{
+	unsigned int i;
+	short passed;
+	unsigned char data[30][30];
+	bignbr a, b, r, p;
+	
+	/* Testdata */
+	/* Divide positive with positive. */
+	strcpy (data[0], "+200050008");
+	strcpy (data[1], "+3");
+	strcpy (data[2], "+10");
+	strcpy (data[3], "+66683336");
+	strcpy (data[4], "+0");
+	
+	/* Divide positive with negative. */
+	strcpy (data[5], "-200050008");
+	strcpy (data[6], "+3");
+	strcpy (data[7], "+10");
+	strcpy (data[8], "-66683336");
+	strcpy (data[9], "+0");
+	
+	/* Divide negative with positive. */
+	strcpy (data[10], "+200050008");
+	strcpy (data[11], "-3");
+	strcpy (data[12], "+10");
+	strcpy (data[13], "-66683336");
+	strcpy (data[14], "+0");
+	
+	/* Divide negative with negative. */
+	strcpy (data[15], "-200050008");
+	strcpy (data[16], "-3");
+	strcpy (data[17], "+10");
+	strcpy (data[18], "+66683336");
+	strcpy (data[19], "+0");
+	
+	strcpy (data[20], "+1");
+	strcpy (data[21], "+7");
+	strcpy (data[22], "+10");
+	strcpy (data[23], "+0");
+	strcpy (data[24], "+142857142");
+	
+	strcpy (data[25], "+20");
+	strcpy (data[26], "+5");
+	strcpy (data[27], "+10");
+	strcpy (data[28], "+4");
+	strcpy (data[29], "+0");
+	
+	bignbr_init (&a, 100, "+0");
+	bignbr_init (&b, 30, "+0");
+	bignbr_init (&r, 100, "+0");
+	bignbr_init (&p, 30, "+0");
+	
+	passed = TESTS_PASS;
+	
+	for (i = 0; i < 30; i++)
+	{
+		bignbr_fill (&a, data[i++]);
+		bignbr_fill (&b, data[i++]);
+		bignbr_fill (&r, "+");
+		bignbr_fill (&p, data[i++]);
+		
+		bignbr_div (&a, &b, &r, &p);
+		
+		if (!bignbr_cmp_str (&a, data[i++]) ||
+		    !bignbr_cmp_str (&r, data[i]))
+		{
+			passed = TESTS_FAIL;
+			break;
+		}
+	}
+	
+	if (passed == TESTS_PASS)
+	{
+		tst_print_success ("INT_Division");
+	}
+	else
+	{
+		tst_print_fail ("INT_Division");
+	}
+	
+	bignbr_free (&a);
+	bignbr_free (&b);
+	bignbr_free (&r);
+	bignbr_free (&p);
+	return passed;
+}
+
 int main (int argc, char* argv[])
 {
 	int points;
@@ -959,6 +1052,7 @@ int main (int argc, char* argv[])
 	points += bignbr_test_int_add ();
 	points += bignbr_test_int_sub ();
 	points += bignbr_test_int_mpl ();
+	points += bignbr_test_int_div ();
 	
 	tst_print_summary (points);
 	
