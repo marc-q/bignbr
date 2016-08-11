@@ -45,6 +45,21 @@ void bignbr_cpy (bignbr *a, bignbr *b)
 	}
 }
 
+void bignbr_cat_digit (bignbr *a, unsigned char v)
+{
+	unsigned int i;
+	
+	i = bignbr_get_eon_pos (a);
+	
+	a->data[i+1] = BIGNBR_EON;
+	
+	for (; i > 1; i--)
+	{
+		a->data[i] = a->data[i-1];
+	}
+	a->data[1] = v;
+}
+
 void bignbr_fill (bignbr *a, unsigned char *v)
 {
 	unsigned int i;
@@ -329,4 +344,105 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	bignbr_free (&out);
 	bignbr_free (&tmp);
 	bignbr_free (&cb);
+}
+
+void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
+{
+	unsigned int i;
+	unsigned char va, j;
+	bool state_a, state_b, end_a;
+	bignbr out, tmp, one, cp;
+	
+	if (bignbr_is_null (a) ||
+	    bignbr_is_null (b))
+	{
+		/* Division through zero! */
+		return;
+	}
+	
+	state_a = bignbr_is_negative (a);
+	state_b = bignbr_is_negative (b);
+	
+	/* Make all positive in order to work correctly! */
+	bignbr_set_negative (a, false);
+	bignbr_set_negative (b, false);
+	
+	bignbr_init (&out, a->len-2, "+");
+	bignbr_init (&tmp, a->len-2, "+");
+	bignbr_init (&one, 1, "+1");
+	bignbr_init (&cp, p->len-2, "+0");
+	
+	i = bignbr_get_eon_pos (a) - 1;
+	end_a = false;
+
+	/* Divide until the precision P is reached. */	
+	for (bignbr_cpy (&cp, p); !bignbr_is_null (&cp); bignbr_sub (&cp, &one))
+	{
+		/* Generate the part of A. */
+		va = (end_a ? 0 : a->data[i]);
+		
+		if (i == 0)
+		{
+			end_a = true;
+			va = 0;
+		}
+		
+		bignbr_cat_digit (&tmp, va);
+		
+		if (!end_a)
+		{
+			i--;
+		}
+		
+		/* Generate and append the next digit. */
+		j = 0;
+		while (!bignbr_is_null (&tmp) &&
+		       !bignbr_is_greater (b, &tmp))
+		{
+			bignbr_sub (&tmp, b);
+			j++;
+		}
+		
+		bignbr_cat_digit ((end_a ? r : &out), j);
+		
+		/* Break if no more digits are left or reset tmp if its zero. */
+		if (end_a &&
+		    bignbr_is_null (&tmp))
+		{
+			break;
+		}
+		else if (bignbr_is_null (&tmp))
+		{
+			bignbr_fill (&tmp, "+");
+		}
+	}
+	
+	/* Sets the EON after the last digit if its unequal to zero. */
+	if (!bignbr_is_null (&out))
+	{
+		for (i = out.len-1; i > 0; i--)
+		{
+			if (out.data[i] == BIGNBR_EON)
+			{
+				out.data[i] = 0;
+			}
+			else if (out.data[i] != 0)
+			{
+				out.data[i+1] = BIGNBR_EON;
+				break;
+			}
+		}
+	}
+	
+	bignbr_cpy (a, &out);
+	
+	/* Set the sign for the numbers. */
+	bignbr_set_negative (a, !bignbr_is_null (a) && (state_a ^ state_b));
+	bignbr_set_negative (b, state_b);
+	bignbr_set_negative (r, !bignbr_is_null (r) && (state_a ^ state_b));
+	
+	bignbr_free (&out);
+	bignbr_free (&tmp);
+	bignbr_free (&one);
+	bignbr_free (&cp);
 }
