@@ -21,6 +21,7 @@ typedef struct _bignbr bignbr;
 void bignbr_init (bignbr*, unsigned int, unsigned char*);
 void bignbr_free (bignbr*);
 void bignbr_cpy (bignbr*, bignbr*);
+void bignbr_cat_digit (bignbr*, unsigned char);
 void bignbr_fill (bignbr*, unsigned char*);
 void bignbr_print (bignbr*);
 unsigned int bignbr_get_eon_pos (bignbr*);
@@ -38,5 +39,6 @@ bool bignbr_is_greater (bignbr*, bignbr*);
 void bignbr_add (bignbr*, bignbr*);
 void bignbr_sub (bignbr*, bignbr*);
 void bignbr_mpl (bignbr*, bignbr*);
+void bignbr_div (bignbr*, bignbr*, bignbr*, bignbr*);
 
 #endif /* __BIGNBR_H__ */
