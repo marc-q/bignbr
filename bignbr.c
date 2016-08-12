@@ -184,14 +184,14 @@ bool bignbr_is_greater (bignbr *a, bignbr *b)
 	/* NOTE: i is equal for A and B. */
 	for (i--; i > 0; i--)
 	{
-		/* Both tests needed due to return false on equal numbers! */
-		if ((state_a && BIGNBR_GETNBR (a->data[i]) < BIGNBR_GETNBR (b->data[i])) ||
-		    (!state_a && BIGNBR_GETNBR (a->data[i]) > BIGNBR_GETNBR (b->data[i])))
+		/* If they are unequal, return this! */
+		if (a->data[i] != b->data[i])
 		{
-			return true;
+			return state_a ^ (a->data[i] > b->data[i]);
 		}
 	}
 	
+	/* Return false because they are equal. */
 	return false;
 }
 
