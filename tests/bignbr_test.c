@@ -379,12 +379,7 @@ static short bignbr_test_check_is_null (void)
 	/* Negative null.*/
 	bignbr_fill (&a, "-0");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_null (&a))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_null (&a))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -392,12 +387,7 @@ static short bignbr_test_check_is_null (void)
 	/* Positive number. */
 	bignbr_fill (&a, "+01234567890");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_null (&a))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_null (&a))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -446,12 +436,7 @@ static short bignbr_test_check_negative (void)
 	/* Negative null.*/
 	bignbr_set_negative (&a, true);
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_negative (&a))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_negative (&a))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -459,12 +444,7 @@ static short bignbr_test_check_negative (void)
 	/* Negative number. */
 	bignbr_fill (&a, "-01234567890");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_negative (&a))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_negative (&a))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -515,12 +495,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-0");
 	bignbr_fill (&b, "-0");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -529,12 +504,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+0");
 	bignbr_fill (&b, "-0");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -543,12 +513,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-0");
 	bignbr_fill (&b, "+0");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -559,12 +524,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "+50");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -572,12 +532,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+50");
 	bignbr_fill (&b, "+128");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -586,12 +541,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-128");
 	bignbr_fill (&b, "-50");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -599,12 +549,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-50");
 	bignbr_fill (&b, "-128");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -613,12 +558,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "-50");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -626,12 +566,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-128");
 	bignbr_fill (&b, "+0");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -639,12 +574,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-0");
 	bignbr_fill (&b, "-128");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -652,12 +582,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "-128");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -665,12 +590,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-128");
 	bignbr_fill (&b, "+128");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -678,12 +598,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "+128");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -691,12 +606,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-128");
 	bignbr_fill (&b, "-128");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -704,12 +614,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+120");
 	bignbr_fill (&b, "+128");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -717,12 +622,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "+120");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -730,12 +630,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-120");
 	bignbr_fill (&b, "-128");
 	
-	if (passed == TESTS_PASS &&
-	    bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (!bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
@@ -743,12 +638,7 @@ static short bignbr_test_check_is_greater (void)
 	bignbr_fill (&a, "-128");
 	bignbr_fill (&b, "-120");
 	
-	if (passed == TESTS_PASS &&
-	    !bignbr_is_greater (&a, &b))
-	{
-		passed = TESTS_PASS;
-	}
-	else
+	if (bignbr_is_greater (&a, &b))
 	{
 		passed = TESTS_FAIL;
 	}
