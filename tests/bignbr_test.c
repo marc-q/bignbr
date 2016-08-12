@@ -746,6 +746,19 @@ static short bignbr_test_check_is_greater (void)
 	if (passed == TESTS_PASS &&
 	    !bignbr_is_greater (&a, &b))
 	{
+		passed = TESTS_PASS;
+	}
+	else
+	{
+		passed = TESTS_FAIL;
+	}
+	
+	bignbr_fill (&a, "+11");
+	bignbr_fill (&b, "+40");
+	
+	if (passed == TESTS_PASS &&
+	    !bignbr_is_greater (&a, &b))
+	{
 		tst_print_success ("CHECK_Is_Greater");
 		passed = TESTS_PASS;
 	}
