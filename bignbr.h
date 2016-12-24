@@ -21,19 +21,19 @@ typedef struct _bignbr bignbr;
 void bignbr_init (bignbr*, unsigned int, unsigned char*);
 void bignbr_free (bignbr*);
 void bignbr_cpy (bignbr*, bignbr*);
-void bignbr_cat_digit (bignbr*, unsigned char);
-void bignbr_fill (bignbr*, unsigned char*);
-void bignbr_print (bignbr*);
-unsigned int bignbr_get_eon_pos (bignbr*);
+void bignbr_cat_digit (bignbr*, const unsigned char);
+void bignbr_fill (bignbr*, const unsigned char*);
+void bignbr_print (const bignbr*);
+unsigned int bignbr_get_eon_pos (const bignbr*);
 
 /* Check */
-bool bignbr_cmp_str (bignbr*, unsigned char*);
-bool bignbr_is_null (bignbr*);
+bool bignbr_cmp_str (const bignbr*, const unsigned char*);
+bool bignbr_is_null (const bignbr*);
 
-void bignbr_set_negative (bignbr*, bool);
-bool bignbr_is_negative (bignbr*);
+void bignbr_set_negative (bignbr*, const bool);
+bool bignbr_is_negative (const bignbr*);
 
-bool bignbr_is_greater (bignbr*, bignbr*);
+bool bignbr_is_greater (const bignbr*, const bignbr*);
 
 /* Arithmetic */
 void bignbr_add (bignbr*, bignbr*);
