@@ -45,7 +45,7 @@ void bignbr_cpy (bignbr *a, bignbr *b)
 	}
 }
 
-void bignbr_cat_digit (bignbr *a, unsigned char v)
+void bignbr_cat_digit (bignbr *a, const unsigned char v)
 {
 	unsigned int i;
 	
@@ -60,7 +60,7 @@ void bignbr_cat_digit (bignbr *a, unsigned char v)
 	a->data[1] = v;
 }
 
-void bignbr_fill (bignbr *a, unsigned char *v)
+void bignbr_fill (bignbr *a, const unsigned char *v)
 {
 	unsigned int i;
 	int j;
@@ -78,7 +78,7 @@ void bignbr_fill (bignbr *a, unsigned char *v)
 	a->data[a->len] = '\0';
 }
 
-void bignbr_print (bignbr *a)
+void bignbr_print (const bignbr *a)
 {
 	unsigned int i;
 	
@@ -93,7 +93,7 @@ void bignbr_print (bignbr *a)
 	printf ("\n");
 }
 
-unsigned int bignbr_get_eon_pos (bignbr *a)
+unsigned int bignbr_get_eon_pos (const bignbr *a)
 {
 	unsigned int i;
 	
@@ -112,7 +112,7 @@ unsigned int bignbr_get_eon_pos (bignbr *a)
    |		    Check			|
    |--------------------------------------------| */
 
-bool bignbr_cmp_str (bignbr *a, unsigned char *v)
+bool bignbr_cmp_str (const bignbr *a, const unsigned char *v)
 {
 	unsigned int i, j;
 	
@@ -136,23 +136,23 @@ bool bignbr_cmp_str (bignbr *a, unsigned char *v)
 	return true;
 }
 
-bool bignbr_is_null (bignbr *a)
+bool bignbr_is_null (const bignbr *a)
 {
 	/* Zeros are always saved in this format! */
 	return a->data[1] == 0 && a->data[2] == BIGNBR_EON;
 }
 
-void bignbr_set_negative (bignbr *a, bool v)
+void bignbr_set_negative (bignbr *a, const bool v)
 {
 	a->data[BIGNBR_SIGN] = (v ? '-' : '+');
 }
 
-bool bignbr_is_negative (bignbr *a)
+bool bignbr_is_negative (const bignbr *a)
 {	
 	return a->data[BIGNBR_SIGN] == '-';
 }
 
-bool bignbr_is_greater (bignbr *a, bignbr *b)
+bool bignbr_is_greater (const bignbr *a, const bignbr *b)
 {
 	unsigned int i, j;
 	bool state_a, state_b;
