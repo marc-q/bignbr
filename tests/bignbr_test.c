@@ -1,4 +1,4 @@
-/* Copyright 2016 Marc Volker Dickmann */
+/* Copyright 2016 - 2017 Marc Volker Dickmann */
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -991,7 +991,7 @@ int main (int argc, char* argv[])
 	
 	points = 0;
 	
-	printf ("BigNbr v. 0.0.1 A (c) 2016 Marc Volker Dickmann\n\n");
+	printf ("BigNbr v. 0.0.1 A (c) 2016 - 2017 Marc Volker Dickmann\n\n");
 	
 	points += bignbr_test_core_cpy ();
 	points += bignbr_test_core_cat_digit ();

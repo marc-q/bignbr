@@ -2,7 +2,7 @@
  * dutils.h
  * This file is part of DUtils
  *
- * Copyright (C) 2015 - 2016 - Marc Volker Dickmann
+ * Copyright (C) 2015 - 2017 - Marc Volker Dickmann
  *
  * DUtils is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
