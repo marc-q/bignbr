@@ -12,22 +12,22 @@
 struct _bignbr
 {
 	unsigned int len;
-	unsigned char *data;
+	char *data;
 };
 
 typedef struct _bignbr bignbr;
 
 /* Core */
-void bignbr_init (bignbr*, unsigned int, unsigned char*);
+void bignbr_init (bignbr*, unsigned int, char*);
 void bignbr_free (bignbr*);
 void bignbr_cpy (bignbr*, bignbr*);
-void bignbr_cat_digit (bignbr*, const unsigned char);
-void bignbr_fill (bignbr*, const unsigned char*);
+void bignbr_cat_digit (bignbr*, const char);
+void bignbr_fill (bignbr*, const char*);
 void bignbr_print (const bignbr*);
 unsigned int bignbr_get_eon_pos (const bignbr*);
 
 /* Check */
-bool bignbr_cmp_str (const bignbr*, const unsigned char*);
+bool bignbr_cmp_str (const bignbr*, const char*);
 bool bignbr_is_null (const bignbr*);
 
 void bignbr_set_negative (bignbr*, const bool);
