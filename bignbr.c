@@ -51,11 +51,11 @@ void bignbr_cat_digit (bignbr *a, const unsigned char v)
 	
 	i = bignbr_get_eon_pos (a);
 	
-	a->data[i+1] = BIGNBR_EON;
+	a->data[i + 1] = BIGNBR_EON;
 	
 	for (; i > 1; i--)
 	{
-		a->data[i] = a->data[i-1];
+		a->data[i] = a->data[i - 1];
 	}
 	a->data[1] = v;
 }
@@ -144,7 +144,7 @@ bool bignbr_is_null (const bignbr *a)
 
 void bignbr_set_negative (bignbr *a, const bool v)
 {
-	a->data[BIGNBR_SIGN] = (v ? '-' : '+');
+	a->data[BIGNBR_SIGN] = (v && !bignbr_is_null (a) ? '-' : '+');
 }
 
 bool bignbr_is_negative (const bignbr *a)
@@ -264,17 +264,17 @@ void bignbr_add (bignbr *a, bignbr *b)
 	}
 	
 	/* Sets the EON after the last digit. */
-	for (i = a->len-1; i > 0; i--)
+	for (i = a->len - 1; i > 0; i--)
 	{
 		if (a->data[i] != 0)
 		{
-			a->data[i+1] = BIGNBR_EON;
+			a->data[i + 1] = BIGNBR_EON;
 			break;
 		}
 		else if (i == 1)
 		{
 			/* If the number equals zero, make it positive! */
-			a->data[i+1] = BIGNBR_EON;
+			a->data[i + 1] = BIGNBR_EON;
 			bignbr_set_negative (a, false);
 			break;
 		}
@@ -319,11 +319,11 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	bignbr out, tmp, cb;
 	
 	/* Since a->len would be len + 2, subtract 2 to get equal length. */
-	bignbr_init (&out, a->len-2, "+0");
+	bignbr_init (&out, a->len - 2, "+0");
 	bignbr_init (&tmp, 1, "+1");
 	
 	/* Make a copy of B since it doesn't change. */
-	bignbr_init (&cb, b->len-2, "+0");
+	bignbr_init (&cb, b->len - 2, "+0");
 	bignbr_cpy (&cb, b);
 	
 	state_a = bignbr_is_negative (a);
@@ -367,10 +367,10 @@ void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 	bignbr_set_negative (a, false);
 	bignbr_set_negative (b, false);
 	
-	bignbr_init (&out, a->len-2, "+");
-	bignbr_init (&tmp, a->len-2, "+");
+	bignbr_init (&out, a->len - 2, "+");
+	bignbr_init (&tmp, a->len - 2, "+");
 	bignbr_init (&one, 1, "+1");
-	bignbr_init (&cp, p->len-2, "+0");
+	bignbr_init (&cp, p->len - 2, "+0");
 	
 	i = bignbr_get_eon_pos (a) - 1;
 	end_a = false;
@@ -420,7 +420,7 @@ void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 	/* Sets the EON after the last digit if its unequal to zero. */
 	if (!bignbr_is_null (&out))
 	{
-		for (i = out.len-1; i > 0; i--)
+		for (i = out.len - 1; i > 0; i--)
 		{
 			if (out.data[i] == BIGNBR_EON)
 			{
@@ -428,7 +428,7 @@ void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 			}
 			else if (out.data[i] != 0)
 			{
-				out.data[i+1] = BIGNBR_EON;
+				out.data[i + 1] = BIGNBR_EON;
 				break;
 			}
 		}
@@ -437,9 +437,9 @@ void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 	bignbr_cpy (a, &out);
 	
 	/* Set the sign for the numbers. */
-	bignbr_set_negative (a, !bignbr_is_null (a) && (state_a ^ state_b));
+	bignbr_set_negative (a, state_a ^ state_b);
 	bignbr_set_negative (b, state_b);
-	bignbr_set_negative (r, !bignbr_is_null (r) && (state_a ^ state_b));
+	bignbr_set_negative (r, state_a ^ state_b);
 	
 	bignbr_free (&out);
 	bignbr_free (&tmp);
