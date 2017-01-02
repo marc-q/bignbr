@@ -10,13 +10,13 @@
    |		    Core			|
    |--------------------------------------------| */
 
-void bignbr_init (bignbr *a, unsigned int len, unsigned char *v)
+void bignbr_init (bignbr *a, unsigned int len, char *v)
 {
 	/* Amount of digits + 2 bytes: 1 for the sign + 1 for the eon. */
 	a->len = len + 2;
 	
   	/* Length + 1 byte : 1 byte for the binary null. */
-	a->data = (unsigned char*) malloc (sizeof (unsigned char) * (a->len + 1));
+	a->data = (char*) malloc (sizeof (char) * (a->len + 1));
 	
 	bignbr_fill (a, v);
 }
@@ -45,7 +45,7 @@ void bignbr_cpy (bignbr *a, bignbr *b)
 	}
 }
 
-void bignbr_cat_digit (bignbr *a, const unsigned char v)
+void bignbr_cat_digit (bignbr *a, const char v)
 {
 	unsigned int i;
 	
@@ -60,7 +60,7 @@ void bignbr_cat_digit (bignbr *a, const unsigned char v)
 	a->data[1] = v;
 }
 
-void bignbr_fill (bignbr *a, const unsigned char *v)
+void bignbr_fill (bignbr *a, const char *v)
 {
 	unsigned int i;
 	int j;
@@ -112,7 +112,7 @@ unsigned int bignbr_get_eon_pos (const bignbr *a)
    |		    Check			|
    |--------------------------------------------| */
 
-bool bignbr_cmp_str (const bignbr *a, const unsigned char *v)
+bool bignbr_cmp_str (const bignbr *a, const char *v)
 {
 	unsigned int i, j;
 	
@@ -178,7 +178,7 @@ bool bignbr_is_greater (const bignbr *a, const bignbr *b)
 	j = bignbr_get_eon_pos (b);
 	if (i != j)
 	{
-		return state_a ^ i > j;
+		return state_a ^ (i > j);
 	}
 	
 	/* NOTE: i is equal for A and B. */
@@ -248,17 +248,17 @@ void bignbr_add (bignbr *a, bignbr *b)
 		
 		if (t < 0)
 		{
-			a->data[i] = (unsigned char) (t + 10);
+			a->data[i] = t + 10;
 			carry = -1;
 		}
 		else if (t >= 10)
 		{
-			a->data[i] = (unsigned char) (t - 10);
+			a->data[i] = t - 10;
 			carry = 1;
 		}
 		else
 		{
-			a->data[i] = (unsigned char) (t);
+			a->data[i] = t;
 			carry = 0;
 		}
 	}
@@ -349,7 +349,7 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 {
 	unsigned int i;
-	unsigned char va, j;
+	char va, j;
 	bool state_a, state_b, end_a;
 	bignbr out, tmp, one, cp;
 	
