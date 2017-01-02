@@ -93,7 +93,7 @@ static short bignbr_test_core_cpy (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[12][10];
+	char data[12][10];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -160,7 +160,7 @@ static short bignbr_test_core_cat_digit (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[9][10];
+	char data[9][10];
 	bignbr a;
 	
 	/* Testdata */
@@ -215,7 +215,7 @@ static short bignbr_test_core_fill (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[4][20];
+	char data[4][20];
 	bignbr a;
 	
 	/* Testdata */
@@ -621,7 +621,7 @@ static short bignbr_test_int_add (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[30][30];
+	char data[30][30];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -717,7 +717,7 @@ static short bignbr_test_int_sub (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[12][30];
+	char data[12][30];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -783,7 +783,7 @@ static short bignbr_test_int_mpl (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[12][20];
+	char data[12][20];
 	bignbr a, b;
 	
 	/* Testdata */
@@ -849,7 +849,7 @@ static short bignbr_test_int_div (void)
 {
 	int i, cases = 0;
 	short passed;
-	unsigned char data[30][30];
+	char data[30][30];
 	bignbr a, b, r, p;
 	
 	/* Testdata */
