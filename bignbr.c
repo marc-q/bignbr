@@ -437,9 +437,9 @@ void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 	bignbr_cpy (a, &out);
 	
 	/* Set the sign for the numbers. */
-	bignbr_set_negative (a, !bignbr_is_null (a) && (state_a ^ state_b));
+	bignbr_set_negative (a, state_a ^ state_b);
 	bignbr_set_negative (b, state_b);
-	bignbr_set_negative (r, !bignbr_is_null (r) && (state_a ^ state_b));
+	bignbr_set_negative (r, state_a ^ state_b);
 	
 	bignbr_free (&out);
 	bignbr_free (&tmp);
