@@ -16,7 +16,7 @@ void bignbr_init (bignbr *a, unsigned int len, char *v)
 	a->len = len + 2;
 	
   	/* Length + 1 byte : 1 byte for the binary null. */
-	a->data = (char*) malloc (sizeof (char) * (a->len + 1));
+	a->data = malloc (sizeof (char) * (a->len + 1));
 	
 	bignbr_fill (a, v);
 }
