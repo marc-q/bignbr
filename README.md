@@ -14,7 +14,8 @@ To be onest i tried to figure out how division can be implemented in GiantNbr, b
 #include <stdbool.h>
 #include "bignbr.h"
 
-int main (int argc, char *argv)
+int
+main (int argc, char *argv)
 {
 	bignbr a, b;
 
