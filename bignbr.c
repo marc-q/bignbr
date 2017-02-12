@@ -10,7 +10,8 @@
    |		    Core			|
    |--------------------------------------------| */
 
-void bignbr_init (bignbr *a, unsigned int len, char *v)
+void
+bignbr_init (bignbr *a, unsigned int len, char *v)
 {
 	/* Amount of digits + 2 bytes: 1 for the sign + 1 for the eon. */
 	a->len = len + 2;
@@ -21,12 +22,14 @@ void bignbr_init (bignbr *a, unsigned int len, char *v)
 	bignbr_fill (a, v);
 }
 
-void bignbr_free (bignbr *a)
+void
+bignbr_free (bignbr *a)
 {
 	free (a->data);
 }
 
-void bignbr_cpy (bignbr *a, bignbr *b)
+void
+bignbr_cpy (bignbr *a, bignbr *b)
 {
 	unsigned int i;
 	bool end_b;
@@ -45,7 +48,8 @@ void bignbr_cpy (bignbr *a, bignbr *b)
 	}
 }
 
-void bignbr_cat_digit (bignbr *a, const char v)
+void
+bignbr_cat_digit (bignbr *a, const char v)
 {
 	unsigned int i;
 	
@@ -60,7 +64,8 @@ void bignbr_cat_digit (bignbr *a, const char v)
 	a->data[1] = v;
 }
 
-void bignbr_fill (bignbr *a, const char *v)
+void
+bignbr_fill (bignbr *a, const char *v)
 {
 	unsigned int i;
 	int j;
@@ -78,7 +83,8 @@ void bignbr_fill (bignbr *a, const char *v)
 	a->data[a->len] = '\0';
 }
 
-void bignbr_print (const bignbr *a)
+void
+bignbr_print (const bignbr *a)
 {
 	unsigned int i;
 	
@@ -93,7 +99,8 @@ void bignbr_print (const bignbr *a)
 	printf ("\n");
 }
 
-unsigned int bignbr_get_eon_pos (const bignbr *a)
+unsigned int
+bignbr_get_eon_pos (const bignbr *a)
 {
 	unsigned int i;
 	
@@ -112,7 +119,8 @@ unsigned int bignbr_get_eon_pos (const bignbr *a)
    |		    Check			|
    |--------------------------------------------| */
 
-bool bignbr_cmp_str (const bignbr *a, const char *v)
+bool
+bignbr_cmp_str (const bignbr *a, const char *v)
 {
 	unsigned int i, j;
 	
@@ -136,23 +144,27 @@ bool bignbr_cmp_str (const bignbr *a, const char *v)
 	return true;
 }
 
-bool bignbr_is_null (const bignbr *a)
+bool
+bignbr_is_null (const bignbr *a)
 {
 	/* Zeros are always saved in this format! */
 	return a->data[1] == 0 && a->data[2] == BIGNBR_EON;
 }
 
-void bignbr_set_negative (bignbr *a, const bool v)
+void
+bignbr_set_negative (bignbr *a, const bool v)
 {
 	a->data[BIGNBR_SIGN] = (v && !bignbr_is_null (a) ? '-' : '+');
 }
 
-bool bignbr_is_negative (const bignbr *a)
+bool
+bignbr_is_negative (const bignbr *a)
 {	
 	return a->data[BIGNBR_SIGN] == '-';
 }
 
-bool bignbr_is_greater (const bignbr *a, const bignbr *b)
+bool
+bignbr_is_greater (const bignbr *a, const bignbr *b)
 {
 	unsigned int i, j;
 	bool state_a, state_b;
@@ -199,7 +211,8 @@ bool bignbr_is_greater (const bignbr *a, const bignbr *b)
    |		    Arithmetic			|
    |--------------------------------------------| */
 
-void bignbr_add (bignbr *a, bignbr *b)
+void
+bignbr_add (bignbr *a, bignbr *b)
 {
 	unsigned int i;
 	char t, carry, va, vb;
@@ -286,7 +299,8 @@ void bignbr_add (bignbr *a, bignbr *b)
 	}
 }
 
-void bignbr_sub (bignbr *a, bignbr *b)
+void
+bignbr_sub (bignbr *a, bignbr *b)
 {
 	bool state_a, state_b;
 	
@@ -313,7 +327,8 @@ void bignbr_sub (bignbr *a, bignbr *b)
 	}
 }
 
-void bignbr_mpl (bignbr *a, bignbr *b)
+void
+bignbr_mpl (bignbr *a, bignbr *b)
 {
 	bool state_a, state_b;
 	bignbr out, tmp, cb;
@@ -346,7 +361,8 @@ void bignbr_mpl (bignbr *a, bignbr *b)
 	bignbr_free (&cb);
 }
 
-void bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
+void
+bignbr_div (bignbr *a, bignbr *b, bignbr *r, bignbr *p)
 {
 	unsigned int i;
 	char va, j;
