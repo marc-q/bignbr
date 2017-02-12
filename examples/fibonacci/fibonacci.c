@@ -3,7 +3,8 @@
 #include <stdbool.h>
 #include "../../bignbr.h"
 
-int main (int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
 	bignbr a, b, limit, tmp;
 	
