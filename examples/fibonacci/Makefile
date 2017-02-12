@@ -1,12 +1,12 @@
 CC = gcc
 OBJECTS = ../../bignbr.c fibonacci.c
 LIBS =
-CFLAGS = -Wall -O2
+CFLAGS = -Wall -Wextra -O2
 BINDIR = $(DESTDIR)/usr/bin
 NAME = fibonacci
 
 fibonacci: $(OBJECTS)
-	$(CC) -o $(NAME) $(OBJECTS) $(LIBS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBS)
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $<
+clean:
+	rm $(NAME)
