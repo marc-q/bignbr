@@ -14,11 +14,12 @@
    |--------------------------------------------| */
 
 /*
-	Function: tst_print_success (char* tstname);
-	Description: Prints the test success message.
-	InitVersion: 0.0.1
-*/
-static void tst_print_success (const char *tstname)
+ *	Function: tst_print_success (char* tstname);
+ *	Description: Prints the test success message.
+ *	InitVersion: 0.0.1
+ */
+static void
+tst_print_success (const char *tstname)
 {
 	printf ("%s:", tstname);
 	
@@ -39,11 +40,12 @@ static void tst_print_success (const char *tstname)
 }
 
 /*
-	Function: tst_print_fail (char* tstname);
-	Description: Prints the test failure message.
-	InitVersion: 0.0.1
-*/
-static void tst_print_fail (const char *tstname)
+ *	Function: tst_print_fail (char* tstname);
+ *	Description: Prints the test failure message.
+ *	InitVersion: 0.0.1
+ */
+static void
+tst_print_fail (const char *tstname)
 {
 	printf ("%s:", tstname);
 	
@@ -64,11 +66,12 @@ static void tst_print_fail (const char *tstname)
 }
 
 /*
-	Function: tst_print_summary (int points);
-	Description: Prints the summary of all tests.
-	InitVersion: 0.0.1
-*/
-static void tst_print_summary (int points)
+ *	Function: tst_print_summary (int points);
+ *	Description: Prints the summary of all tests.
+ *	InitVersion: 0.0.1
+ */
+static void
+tst_print_summary (const int points)
 {
 	printf ("\n+=======================+\n");
 	printf ("|  Summary of all tests |\n");
@@ -85,44 +88,44 @@ static void tst_print_summary (int points)
    |--------------------------------------------| */
 
 /*
-	Function: bignbr_test_core_cpy (void);
-	Description: Tests the bignbr_cpy function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_core_cpy (void)
+ *	Function: bignbr_test_core_cpy (void);
+ *	Description: Tests the bignbr_cpy function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_core_cpy (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[12][10];
+	
+	// Testdata
+	// Copy positive to positive.
+	strcpy (data[cases++], "+1005");
+	strcpy (data[cases++], "+2005");
+	strcpy (data[cases++], "+2005");
+	
+	// Copy positive to negative.
+	strcpy (data[cases++], "-1005");
+	strcpy (data[cases++], "+2005");
+	strcpy (data[cases++], "+2005");
+	
+	// Copy negative to positive.
+	strcpy (data[cases++], "+1005");
+	strcpy (data[cases++], "-2005");
+	strcpy (data[cases++], "-2005");
+	
+	// Copy negative to negative.
+	strcpy (data[cases++], "-1005");
+	strcpy (data[cases++], "-2005");
+	strcpy (data[cases++], "-2005");
+	
 	bignbr a, b;
-	
-	/* Testdata */
-	/* Copy positive to positive. */
-	strcpy (data[cases++], "+1005");
-	strcpy (data[cases++], "+2005");
-	strcpy (data[cases++], "+2005");
-	
-	/* Copy positive to negative. */
-	strcpy (data[cases++], "-1005");
-	strcpy (data[cases++], "+2005");
-	strcpy (data[cases++], "+2005");
-	
-	/* Copy negative to positive. */
-	strcpy (data[cases++], "+1005");
-	strcpy (data[cases++], "-2005");
-	strcpy (data[cases++], "-2005");
-	
-	/* Copy negative to negative. */
-	strcpy (data[cases++], "-1005");
-	strcpy (data[cases++], "-2005");
-	strcpy (data[cases++], "-2005");
-	
 	bignbr_init (&a, 10, "+0");
 	bignbr_init (&b, 4, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i++)
+	for (size_t i = 0; i < cases; i++)
 	{
 		bignbr_fill (&a, data[i++]);
 		bignbr_fill (&b, data[i++]);
@@ -152,18 +155,17 @@ static short bignbr_test_core_cpy (void)
 }
 
 /*
-	Function: bignbr_test_core_cat_digit (void);
-	Description: Tests the bignbr_cat_digit function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_core_cat_digit (void)
+ *	Function: bignbr_test_core_cat_digit (void);
+ *	Description: Tests the bignbr_cat_digit function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_core_cat_digit (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[9][10];
-	bignbr a;
 	
-	/* Testdata */
+	// Testdata
 	strcpy (data[cases++], "+0");
 	data[cases++][0] = 1;
 	strcpy (data[cases++], "+01");
@@ -176,11 +178,12 @@ static short bignbr_test_core_cat_digit (void)
 	data[cases++][0] = 0;
 	strcpy (data[cases++], "+00");
 	
+	bignbr a;
 	bignbr_init (&a, 10, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i++)
+	for (size_t i = 0; i < cases; i++)
 	{
 		bignbr_fill (&a, data[i++]);
 		
@@ -207,31 +210,31 @@ static short bignbr_test_core_cat_digit (void)
 }
 
 /*
-	Function: bignbr_test_core_fill (void);
-	Description: Tests the bignbr_fill function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_core_fill (void)
+ *	Function: bignbr_test_core_fill (void);
+ *	Description: Tests the bignbr_fill function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_core_fill (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[4][20];
-	bignbr a;
 	
-	/* Testdata */
-	/* Fill a positive. */
+	// Testdata
+	// Fill a positive.
 	strcpy (data[cases++], "+01234567890");
 	memcpy (data[cases++], "+\x00\x09\x08\x07\x06\x05\x04\x03\x02\x01\x00\x45", 13);
 	
-	/* Fill a negative. */
+	// Fill a negative.
 	strcpy (data[cases++], "-09876543210");
 	memcpy (data[cases++], "-\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x00\x45", 13);
 	
+	bignbr a;
 	bignbr_init (&a, 11, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i += 2)
+	for (size_t i = 0; i < cases; i += 2)
 	{
 		bignbr_fill (&a, data[i]);
 		
@@ -257,29 +260,27 @@ static short bignbr_test_core_fill (void)
 }
 
 /*
-	Function: bignbr_test_core_geteonpos (void);
-	Description: Tests the bignbr_get_eon_pos function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_core_geteonpos (void)
+ *	Function: bignbr_test_core_geteonpos (void);
+ *	Description: Tests the bignbr_get_eon_pos function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_core_geteonpos (void)
 {
-	unsigned int pos;
-	short passed;
+	int passed = TESTS_PASS;
+	
 	bignbr a;
-	
-	passed = TESTS_PASS;
-	
-	/* Get the EON from an positive 1 digit number. */
+	// Get the EON from an positive 1 digit number.
 	bignbr_init (&a, 10, "+0");
 	
-	pos = bignbr_get_eon_pos (&a);
+	size_t pos = bignbr_get_eon_pos (&a);
 	
 	if (a.data[pos] != BIGNBR_EON)
 	{
 		passed = TESTS_FAIL;
 	}
 	
-	/* Get the EON from an negative 10 digit number. */
+	// Get the EON from an negative 10 digit number.
 	bignbr_fill (&a, "-0987654321");
 	
 	pos = bignbr_get_eon_pos (&a);
@@ -304,18 +305,17 @@ static short bignbr_test_core_geteonpos (void)
    |--------------------------------------------| */
 
 /*
-	Function: bignbr_test_check_cmp_str (void);
-	Description: Tests the bignbr_cmp_str function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_check_cmp_str (void)
+ *	Function: bignbr_test_check_cmp_str (void);
+ *	Description: Tests the bignbr_cmp_str function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_check_cmp_str (void)
 {
-	short passed;
+	int passed = TESTS_PASS;
+	
 	bignbr a;
-	
-	passed = TESTS_PASS;
-	
-	/* Compare a positive with a negative number. */
+	// Compare a positive with a negative number.
 	bignbr_init (&a, 11, "+01234567890");
 	
 	if ( bignbr_cmp_str (&a, "-01234567890") ||
@@ -328,7 +328,7 @@ static short bignbr_test_check_cmp_str (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Compare a negative with a positive number. */
+	// Compare a negative with a positive number.
 	bignbr_fill (&a, "-01234567890");
 	
 	if ( passed == TESTS_PASS &&
@@ -352,18 +352,17 @@ static short bignbr_test_check_cmp_str (void)
 }
 
 /*
-	Function: bignbr_test_check_is_null (void);
-	Description: Tests the bignbr_is_null function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_check_is_null (void)
+ *	Function: bignbr_test_check_is_null (void);
+ *	Description: Tests the bignbr_is_null function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_check_is_null (void)
 {
-	short passed;
+	int passed = TESTS_PASS;
+	
 	bignbr a;
-	
-	passed = TESTS_PASS;
-	
-	/* Positive null. */
+	// Positive null.
 	bignbr_init (&a, 11, "+0");
 	
 	if (!bignbr_is_null (&a))
@@ -371,7 +370,7 @@ static short bignbr_test_check_is_null (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Negative null.*/
+	// Negative null.
 	bignbr_fill (&a, "-0");
 	
 	if (!bignbr_is_null (&a))
@@ -379,7 +378,7 @@ static short bignbr_test_check_is_null (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Positive number. */
+	// Positive number.
 	bignbr_fill (&a, "+01234567890");
 	
 	if (bignbr_is_null (&a))
@@ -387,7 +386,7 @@ static short bignbr_test_check_is_null (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Negative number. */
+	// Negative number.
 	bignbr_fill (&a, "-01234567890");
 	
 	if ( passed == TESTS_PASS &&
@@ -406,18 +405,17 @@ static short bignbr_test_check_is_null (void)
 }
 
 /*
-	Function: bignbr_test_check_negative (void);
-	Description: Tests the bignbr_is_negative and bignbr_set_negative functions from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_check_negative (void)
+ *	Function: bignbr_test_check_negative (void);
+ *	Description: Tests the bignbr_is_negative and bignbr_set_negative functions from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_check_negative (void)
 {
-	short passed;
+	int passed = TESTS_PASS;
+	
 	bignbr a;
-	
-	passed = TESTS_PASS;
-	
-	/* Positive null. */
+	// Positive null.
 	bignbr_init (&a, 11, "+0");
 	
 	if (bignbr_is_negative (&a))
@@ -425,7 +423,7 @@ static short bignbr_test_check_negative (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Negative null. (Impossible) */
+	// Negative null. (Impossible)
 	bignbr_set_negative (&a, true);
 	
 	if (bignbr_is_negative (&a))
@@ -433,7 +431,7 @@ static short bignbr_test_check_negative (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Negative number. */
+	// Negative number.
 	bignbr_fill (&a, "-01234567890");
 	
 	if (!bignbr_is_negative (&a))
@@ -441,7 +439,7 @@ static short bignbr_test_check_negative (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Positive number. */
+	// Positive number.
 	bignbr_set_negative (&a, false);
 	
 	if ( passed == TESTS_PASS &&
@@ -460,18 +458,17 @@ static short bignbr_test_check_negative (void)
 }
 
 /*
-	Function: bignbr_test_check_is_greater (void);
-	Description: Tests the bignbr_is_greater function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_check_is_greater (void)
+ *	Function: bignbr_test_check_is_greater (void);
+ *	Description: Tests the bignbr_is_greater function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_check_is_greater (void)
 {
-	short passed;
+	int passed = TESTS_PASS;
+	
 	bignbr a, b;
-	
-	passed = TESTS_PASS;
-	
-	/* Check two positive nulls. */
+	// Check two positive nulls.
 	bignbr_init (&a, 3, "+0");
 	bignbr_init (&b, 10, "+0");
 	
@@ -480,7 +477,7 @@ static short bignbr_test_check_is_greater (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Check two negative nulls. */
+	// Check two negative nulls.
 	bignbr_fill (&a, "-0");
 	bignbr_fill (&b, "-0");
 	
@@ -489,7 +486,7 @@ static short bignbr_test_check_is_greater (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Check two nulls with unequal signs. */
+	// Check two nulls with unequal signs.
 	bignbr_fill (&a, "+0");
 	bignbr_fill (&b, "-0");
 	
@@ -499,9 +496,9 @@ static short bignbr_test_check_is_greater (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* NUMBERS */
+	// NUMBERS
 	
-	/* Check two unequal positive numbers. */
+	// Check two unequal positive numbers.
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "+50");
 	
@@ -511,7 +508,7 @@ static short bignbr_test_check_is_greater (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Check two unequal negative numbers. */
+	// Check two unequal negative numbers.
 	bignbr_fill (&a, "-128");
 	bignbr_fill (&b, "-50");
 	
@@ -521,7 +518,7 @@ static short bignbr_test_check_is_greater (void)
 		passed = TESTS_FAIL;
 	}
 	
-	/* Check a positive and an negative number. */
+	// Check a positive and an negative number.
 	bignbr_fill (&a, "+128");
 	bignbr_fill (&b, "-50");
 	
@@ -617,70 +614,70 @@ static short bignbr_test_check_is_greater (void)
 	Description: Tests the bignbr_add function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_int_add (void)
+static int
+bignbr_test_int_add (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[30][30];
-	bignbr a, b;
 	
-	/* Testdata */
-	/* Add positive to positive. */
+	// Testdata
+	// Add positive to positive.
 	strcpy (data[cases++], "+204242999999999999999999");
 	strcpy (data[cases++], "+1");
 	strcpy (data[cases++], "+204243000000000000000000");
 	
-	/* Add positive to negative. */
+	// Add positive to negative.
 	strcpy (data[cases++], "-204242999999999999999999");
 	strcpy (data[cases++], "+1");
 	strcpy (data[cases++], "-204242999999999999999998");
 	
-	/* Add negative to positive. */
+	// Add negative to positive.
 	strcpy (data[cases++], "+204242999999999999999999");
 	strcpy (data[cases++], "-1");
 	strcpy (data[cases++], "+204242999999999999999998");
 	
-	/* Add negative to negative. */
+	// Add negative to negative.
 	strcpy (data[cases++], "-204242999999999999999999");
 	strcpy (data[cases++], "-1");
 	strcpy (data[cases++], "-204243000000000000000000");
 	
-	/* Add negative greater to positive. */
+	// Add negative greater to positive.
 	strcpy (data[cases++], "+150");
 	strcpy (data[cases++], "-200");
 	strcpy (data[cases++], "-50");
 	
-	/* Add negative greater to positive. */
+	// Add negative greater to positive.
 	strcpy (data[cases++], "+15");
 	strcpy (data[cases++], "-200");
 	strcpy (data[cases++], "-185");
 	
-	/* Add positive greater to negative. */
+	// Add positive greater to negative.
 	strcpy (data[cases++], "-150");
 	strcpy (data[cases++], "+200");
 	strcpy (data[cases++], "+50");
 	
-	/* Add positive greater to negative. */
+	// Add positive greater to negative.
 	strcpy (data[cases++], "-15");
 	strcpy (data[cases++], "+200");
 	strcpy (data[cases++], "+185");
 	
-	/* Add positive equal to negative. */
+	// Add positive equal to negative.
 	strcpy (data[cases++], "-15");
 	strcpy (data[cases++], "+15");
 	strcpy (data[cases++], "+0");
 	
-	/* Add negative equal to postive. */
+	// Add negative equal to postive.
 	strcpy (data[cases++], "+15");
 	strcpy (data[cases++], "-15");
 	strcpy (data[cases++], "+0");
 	
+	bignbr a, b;
 	bignbr_init (&a, 30, "+0");
 	bignbr_init (&b, 10, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i++)
+	for (size_t i = 0; i < cases; i++)
 	{
 		bignbr_fill (&a, data[i++]);
 		bignbr_fill (&b, data[i++]);
@@ -709,44 +706,44 @@ static short bignbr_test_int_add (void)
 }
 
 /*
-	Function: bignbr_test_int_sub (void);
-	Description: Tests the bignbr_sub function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_int_sub (void)
+ *	Function: bignbr_test_int_sub (void);
+ *	Description: Tests the bignbr_sub function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_int_sub (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[12][30];
-	bignbr a, b;
 	
-	/* Testdata */
-	/* Subtract positive from positive. */
+	// Testdata
+	// Subtract positive from positive.
 	strcpy (data[cases++], "+204242999999999999999999");
 	strcpy (data[cases++], "+1");
 	strcpy (data[cases++], "+204242999999999999999998");
 	
-	/* Subtract positive from negative. */
+	// Subtract positive from negative.
 	strcpy (data[cases++], "-204242999999999999999999");
 	strcpy (data[cases++], "+1");
 	strcpy (data[cases++], "-204243000000000000000000");
 	
-	/* Subtract negative from positive. */
+	// Subtract negative from positive.
 	strcpy (data[cases++], "+204242999999999999999999");
 	strcpy (data[cases++], "-1");
 	strcpy (data[cases++], "+204243000000000000000000");
 	
-	/* Subtract negative from negative. */
+	// Subtract negative from negative.
 	strcpy (data[cases++], "-204242999999999999999999");
 	strcpy (data[cases++], "-1");
 	strcpy (data[cases++], "-204242999999999999999998");
 	
+	bignbr a, b;
 	bignbr_init (&a, 30, "+0");
 	bignbr_init (&b, 1, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i++)
+	for (size_t i = 0; i < cases; i++)
 	{
 		bignbr_fill (&a, data[i++]);
 		bignbr_fill (&b, data[i++]);
@@ -775,44 +772,44 @@ static short bignbr_test_int_sub (void)
 }
 
 /*
-	Function: bignbr_test_int_mpl (void);
-	Description: Tests the bignbr_mpl function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_int_mpl (void)
+ *	Function: bignbr_test_int_mpl (void);
+ *	Description: Tests the bignbr_mpl function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_int_mpl (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[12][20];
+	
+	// Testdata
+	// Multiply positive with positive.
+	strcpy (data[cases++], "+200050008");
+	strcpy (data[cases++], "+3");
+	strcpy (data[cases++], "+600150024");
+	
+	// Multiply positive with negative.
+	strcpy (data[cases++], "-200050008");
+	strcpy (data[cases++], "+3");
+	strcpy (data[cases++], "-600150024");
+	
+	// Multiply negative with positive.
+	strcpy (data[cases++], "+200050008");
+	strcpy (data[cases++], "-3");
+	strcpy (data[cases++], "-600150024");
+	
+	// Multiply negative with negative.
+	strcpy (data[cases++], "-200050008");
+	strcpy (data[cases++], "-3");
+	strcpy (data[cases++], "+600150024");
+	
 	bignbr a, b;
-	
-	/* Testdata */
-	/* Multiply positive with positive. */
-	strcpy (data[cases++], "+200050008");
-	strcpy (data[cases++], "+3");
-	strcpy (data[cases++], "+600150024");
-	
-	/* Multiply positive with negative. */
-	strcpy (data[cases++], "-200050008");
-	strcpy (data[cases++], "+3");
-	strcpy (data[cases++], "-600150024");
-	
-	/* Multiply negative with positive. */
-	strcpy (data[cases++], "+200050008");
-	strcpy (data[cases++], "-3");
-	strcpy (data[cases++], "-600150024");
-	
-	/* Multiply negative with negative. */
-	strcpy (data[cases++], "-200050008");
-	strcpy (data[cases++], "-3");
-	strcpy (data[cases++], "+600150024");
-	
 	bignbr_init (&a, 20, "+0");
 	bignbr_init (&b, 1, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i++)
+	for (size_t i = 0; i < cases; i++)
 	{
 		bignbr_fill (&a, data[i++]);
 		bignbr_fill (&b, data[i++]);
@@ -841,40 +838,39 @@ static short bignbr_test_int_mpl (void)
 }
 
 /*
-	Function: bignbr_test_int_div (void);
-	Description: Tests the bignbr_div function from bignbr.c.
-	InitVersion: 0.0.1
-*/
-static short bignbr_test_int_div (void)
+ *	Function: bignbr_test_int_div (void);
+ *	Description: Tests the bignbr_div function from bignbr.c.
+ *	InitVersion: 0.0.1
+ */
+static int
+bignbr_test_int_div (void)
 {
-	int i, cases = 0;
-	short passed;
+	size_t cases = 0;
 	char data[30][30];
-	bignbr a, b, r, p;
 	
-	/* Testdata */
-	/* Divide positive with positive. */
+	// Testdata
+	// Divide positive with positive.
 	strcpy (data[cases++], "+200050008");
 	strcpy (data[cases++], "+3");
 	strcpy (data[cases++], "+10");
 	strcpy (data[cases++], "+66683336");
 	strcpy (data[cases++], "+0");
 	
-	/* Divide positive with negative. */
+	// Divide positive with negative.
 	strcpy (data[cases++], "-200050008");
 	strcpy (data[cases++], "+3");
 	strcpy (data[cases++], "+10");
 	strcpy (data[cases++], "-66683336");
 	strcpy (data[cases++], "+0");
 	
-	/* Divide negative with positive. */
+	// Divide negative with positive.
 	strcpy (data[cases++], "+200050008");
 	strcpy (data[cases++], "-3");
 	strcpy (data[cases++], "+10");
 	strcpy (data[cases++], "-66683336");
 	strcpy (data[cases++], "+0");
 	
-	/* Divide negative with negative. */
+	// Divide negative with negative.
 	strcpy (data[cases++], "-200050008");
 	strcpy (data[cases++], "-3");
 	strcpy (data[cases++], "+10");
@@ -893,14 +889,15 @@ static short bignbr_test_int_div (void)
 	strcpy (data[cases++], "+4");
 	strcpy (data[cases++], "+0");
 	
+	bignbr a, b, r, p;
 	bignbr_init (&a, 100, "+0");
 	bignbr_init (&b, 30, "+0");
 	bignbr_init (&r, 100, "+0");
 	bignbr_init (&p, 30, "+0");
 	
-	passed = TESTS_PASS;
+	int passed = TESTS_PASS;
 	
-	for (i = 0; i < cases; i++)
+	for (size_t i = 0; i < cases; i++)
 	{
 		bignbr_fill (&a, data[i++]);
 		bignbr_fill (&b, data[i++]);
@@ -933,11 +930,10 @@ static short bignbr_test_int_div (void)
 	return passed;
 }
 
-int main (int argc, char* argv[])
-{
-	int points;
-	
-	points = 0;
+int
+main (int argc, char* argv[])
+{	
+	int points = 0;
 	
 	printf ("BigNbr v. 0.0.1 A (c) 2016 - 2017 Marc Volker Dickmann\n\n");
 	

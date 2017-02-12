@@ -3,7 +3,8 @@
 #include <stdbool.h>
 #include "../../bignbr.h"
 
-int main (int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
 	bignbr a, b, limit, tmp;
 	
@@ -20,7 +21,7 @@ int main (int argc, char *argv[])
 		bignbr_sub (&b, &tmp);
 	}
 	
-	/* Calculate the smallest Fibonacci number with 100 digits! */
+	// Calculate the smallest Fibonacci number with 100 digits!
 	bignbr_fill (&a, "+0");
 	bignbr_fill (&b, "+1");
 	bignbr_fill (&tmp, "+0");
@@ -29,7 +30,7 @@ int main (int argc, char *argv[])
 	{
 		bignbr_add (&a, &b);
 		
-		/* Swap A with B! */
+		// Swap A with B!
 		bignbr_cpy (&tmp, &a);
 		bignbr_cpy (&a, &b);
 		bignbr_cpy (&b, &tmp);
@@ -38,7 +39,7 @@ int main (int argc, char *argv[])
 	printf ("The smallest Fibonacci number with 100 digits is: ");
 	bignbr_print (&a);
 	
-	/* Cleanup */
+	// Cleanup
 	bignbr_free (&a);
 	bignbr_free (&b);
 	bignbr_free (&limit);
