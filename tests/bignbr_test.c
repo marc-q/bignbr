@@ -18,7 +18,8 @@
 	Description: Prints the test success message.
 	InitVersion: 0.0.1
 */
-static void tst_print_success (const char *tstname)
+static void
+tst_print_success (const char *tstname)
 {
 	printf ("%s:", tstname);
 	
@@ -43,7 +44,8 @@ static void tst_print_success (const char *tstname)
 	Description: Prints the test failure message.
 	InitVersion: 0.0.1
 */
-static void tst_print_fail (const char *tstname)
+static void
+tst_print_fail (const char *tstname)
 {
 	printf ("%s:", tstname);
 	
@@ -68,7 +70,8 @@ static void tst_print_fail (const char *tstname)
 	Description: Prints the summary of all tests.
 	InitVersion: 0.0.1
 */
-static void tst_print_summary (int points)
+static void
+tst_print_summary (int points)
 {
 	printf ("\n+=======================+\n");
 	printf ("|  Summary of all tests |\n");
@@ -89,7 +92,8 @@ static void tst_print_summary (int points)
 	Description: Tests the bignbr_cpy function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_core_cpy (void)
+static short
+bignbr_test_core_cpy (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -156,7 +160,8 @@ static short bignbr_test_core_cpy (void)
 	Description: Tests the bignbr_cat_digit function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_core_cat_digit (void)
+static short
+bignbr_test_core_cat_digit (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -211,7 +216,8 @@ static short bignbr_test_core_cat_digit (void)
 	Description: Tests the bignbr_fill function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_core_fill (void)
+static short
+bignbr_test_core_fill (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -261,7 +267,8 @@ static short bignbr_test_core_fill (void)
 	Description: Tests the bignbr_get_eon_pos function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_core_geteonpos (void)
+static short
+bignbr_test_core_geteonpos (void)
 {
 	unsigned int pos;
 	short passed;
@@ -308,7 +315,8 @@ static short bignbr_test_core_geteonpos (void)
 	Description: Tests the bignbr_cmp_str function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_check_cmp_str (void)
+static short
+bignbr_test_check_cmp_str (void)
 {
 	short passed;
 	bignbr a;
@@ -356,7 +364,8 @@ static short bignbr_test_check_cmp_str (void)
 	Description: Tests the bignbr_is_null function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_check_is_null (void)
+static short
+bignbr_test_check_is_null (void)
 {
 	short passed;
 	bignbr a;
@@ -410,7 +419,8 @@ static short bignbr_test_check_is_null (void)
 	Description: Tests the bignbr_is_negative and bignbr_set_negative functions from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_check_negative (void)
+static short
+bignbr_test_check_negative (void)
 {
 	short passed;
 	bignbr a;
@@ -464,7 +474,8 @@ static short bignbr_test_check_negative (void)
 	Description: Tests the bignbr_is_greater function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_check_is_greater (void)
+static short
+bignbr_test_check_is_greater (void)
 {
 	short passed;
 	bignbr a, b;
@@ -617,7 +628,8 @@ static short bignbr_test_check_is_greater (void)
 	Description: Tests the bignbr_add function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_int_add (void)
+static short
+bignbr_test_int_add (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -713,7 +725,8 @@ static short bignbr_test_int_add (void)
 	Description: Tests the bignbr_sub function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_int_sub (void)
+static short
+bignbr_test_int_sub (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -779,7 +792,8 @@ static short bignbr_test_int_sub (void)
 	Description: Tests the bignbr_mpl function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_int_mpl (void)
+static short
+bignbr_test_int_mpl (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -845,7 +859,8 @@ static short bignbr_test_int_mpl (void)
 	Description: Tests the bignbr_div function from bignbr.c.
 	InitVersion: 0.0.1
 */
-static short bignbr_test_int_div (void)
+static short
+bignbr_test_int_div (void)
 {
 	int i, cases = 0;
 	short passed;
@@ -933,7 +948,8 @@ static short bignbr_test_int_div (void)
 	return passed;
 }
 
-int main (int argc, char* argv[])
+int
+main (int argc, char* argv[])
 {
 	int points;
 	
