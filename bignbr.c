@@ -92,17 +92,15 @@ bignbr_print (const bignbr *a)
 size_t
 bignbr_get_eon_pos (const bignbr *a)
 {
-	size_t i = 1;
-	
-	for (; i < a->len; i++)
+	for (size_t i = 1; i < a->len; i++)
 	{
 		if (a->data[i] == BIGNBR_EON)
 		{
-			break;
+			return i;
 		}
 	}
-	
-	return i;
+	// EON should never be 0, indicates an error!
+	return 0;
 }
 
 /* |--------------------------------------------|
