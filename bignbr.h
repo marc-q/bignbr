@@ -11,7 +11,7 @@
 
 struct _bignbr
 {
-	unsigned int len;
+	size_t len;
 	char *data;
 };
 
