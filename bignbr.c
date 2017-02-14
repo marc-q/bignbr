@@ -31,9 +31,7 @@ bignbr_free (bignbr *a)
 void
 bignbr_cpy (bignbr *a, const bignbr *b)
 {
-	bool end_b;
-	
-	end_b = false; 
+	bool end_b = false; 
 	
 	// Start at zero to include the sign.
 	for (size_t i = 0; i < a->len; i++)
@@ -115,7 +113,7 @@ bool
 bignbr_cmp_str (const bignbr *a, const char *v)
 {
 	size_t i = bignbr_get_eon_pos (a);
-	size_t j = strlen (v);
+	const size_t j = strlen (v);
 	
 	if (i != j ||
 	    a->data[BIGNBR_SIGN] != v[BIGNBR_SIGN])
